@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Investing</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<script src="https://kit.fontawesome.com/fce9a50d02.js"
+        crossorigin="anonymous">
+    </script>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+           
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Investing</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+        </nav> 
+        <div class="container">
+        <nav class="top-menu">
+            <ul class="menu-main">
+                <li><a asp-controller="Stock" asp-action="GetListStocks" class="current">Акции</a></li>
+                <li><a href="">Валюта</a></li>
+                <li><a href="">Облигации</a></li>
+                <li><a href="">Фонды</a></li>
+                <li><a href="">Фьючерсы</a></li>
+            </ul>
+        </nav>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Investing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+<style>
+.top-menu {
+  position: relative; 
+  background: #fff;
+  box-shadow: inset 0 0 10px #ccc;
+}
+.top-menu:before,
+.top-menu:after {
+  content: "";
+  display: block;
+  height: 1px;
+  border-top: 3px solid #575350;
+  border-bottom: 1px solid #575350;
+  margin-bottom: 2px;
+}
+.top-menu:after {
+  border-bottom: 3px solid #575350;
+  border-top: 1px solid #575350;
+  box-shadow: 0 2px 7px #ccc;
+  margin-top: 2px;
+}
+.menu-main {
+  list-style: none;
+  padding: 0 30px;
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  position: relative;
+}
+.menu-main:before,
+.menu-main:after {
+  content: "\25C8";
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.menu-main:before {left: 15px;}
+.menu-main:after {right: 15px;}
+.menu-main li {
+  display: inline-block;
+  padding: 5px 0;
+}
+.menu-main a {
+  text-decoration: none;
+  display: inline-block;
+  margin: 2px 5px;
+  padding: 6px 15px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 16px;
+  color: #777777;
+  border-bottom: 1px solid transparent;
+  transition: .3s linear;
+}
+.menu-main .current, .menu-main a:hover {
+  border-radius: 3px;
+  background: #f3ece1;
+  color: #313131;
+  text-shadow: 0 1px 0 #fff;
+  border-color: #c6c6c6;
+}
+</style>

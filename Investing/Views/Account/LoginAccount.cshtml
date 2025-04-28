@@ -1,0 +1,99 @@
+﻿@model Investing.Models.Credentials
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+@{
+    ViewData["Title"] = "Login";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+    <h2>Авторизация</h2>
+    
+<form asp-action="LoginAccount" method="post">
+   
+    <div class="form-group">
+        <label for="Login">Логин</label>
+        <input type="text" class="form-control" id="Login" name="Login" required>
+    </div>
+    <div class="form-group">
+        <label for="Password">Пароль</label>
+        <input type="password" class="form-control" id="Password" name="Password" required>
+    </div>
+    <div>
+        <label asp-for="IsRememberMe">Запомнить меня</label>
+        <input asp-for="IsRememberMe" type="checkbox" />
+    </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+            <p>Нет аккаунта? <a asp-controller="Account" asp-action="Registration">Зарегистрироваться</a></p>
+  
+</form>
+
+
+    <style>
+
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+            .container h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .container input[type="text"],
+            .container input[type="email"],
+            .container input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            .container button {
+                width: 100%;
+                padding: 10px;
+                background-color: #28a745;
+                border: none;
+                border-radius: 4px;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+                .container button:hover {
+                    background-color: #218838;
+                }
+
+            .container p {
+                margin-top: 15px;
+                font-size: 14px;
+            }
+
+            .container a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                .container a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+
+
+

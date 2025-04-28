@@ -1,0 +1,162 @@
+﻿<head>
+    <script src="~/js/PhoneNumber.js"></script>
+</head>
+<div class="bodys">
+    <div class="container_x">
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'Tab1')">Введите номер телефона</button>
+            <button class="tablink" onclick="openTab(event, 'Tab2')">Добавьте паспортные данные</button>
+            <button class="tablink" onclick="openTab(event, 'Tab3')">Подпишите документы</button>
+        </div>
+
+        <div id="Tab1" class="tabcontent">
+            <h2>Введите номер телефона</h2>
+            <form id="phoneForm">
+                <input type="tel" name="phone" id="phone" placeholder="+7 (___) ___" pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}" required>
+                <p id="phoneError" class="error">Номер телефона указан не полностью</p>
+                <button type="button" id="nextButton1">Далее</button>
+            </form>
+            <label>
+                <input type="checkbox" id="aprovePerson">
+            </label>
+            <p class="consent">
+                Я даю согласие на обработку персональных данных, подтверждаю, что ознакомился с Политикой обработки персональных данных и то, что я владелец указанного номера телефона.
+            </p>
+            <p>Мы пришлем вам код по СМС</p>
+        </div>
+
+        <div id="Tab2" class="tabcontent">
+            <h2>Добавьте паспортные данные</h2>
+            <form id="passportForm">
+                <label for="passportNumber">Номер паспорта:</label>
+                <input type="text" id="passportNumber" required>
+                <button type="button" id="nextButton2">Далее</button>
+            </form>
+        </div>
+        <div id="Tab3" class="tabcontent">
+            <h2>Подпишите документы</h2>
+            <form id="signForm">
+                <label for="signature">Подпись:</label>
+                <input type="text" id="signature" required>
+                <button type="submit">Завершить</button>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</div>
+<style>
+    .bodys {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .checkbox-label input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    checkbox-label {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 14px;
+        user-select: none;
+    }
+
+    .container_x {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .tablink {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .tablink:hover {
+            background-color: #0056b3;
+        }
+
+    .tabcontent {
+        display: none;
+    }
+
+        .tabcontent.active {
+            display: block;
+        }
+
+    .error {
+        color: red;
+        display: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+    .consent {
+        font-size: 12px;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>
+<script>
+    function openTab(evt, tabName) {
+        const tabcontent = document.getElementsByClassName("tabcontent");
+        for (let i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        const tablinks = document.getElementsByClassName("tablink");
+        for (let i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    document.getElementById("nextButton1").addEventListener("click", function () {
+        openTab(event, 'Tab2');
+    });
+
+    document.getElementById("nextButton2").addEventListener("click", function () {
+        openTab(event, 'Tab3');
+    });
+
+    // По умолчанию открываем первую вкладку
+    document.getElementsByClassName("tablink")[0].click();
+
+
+</script>

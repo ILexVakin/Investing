@@ -1,0 +1,163 @@
+﻿@model Investing.Models.DTO.UserCredentialsDTO
+<h1>Управление аккаунтом</h1>
+    <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Tab1')">Персональные данные</button>
+    <button class="tablinks" onclick="openTab(event, 'Tab2')">Мои активы</button>
+        <button class="tablinks" onclick="openTab(event, 'Tab3')">Вкладка 3</button>
+    </div>
+
+    <div id="Tab1" class="tabcontent">
+    <h3>Персональные данные</h3>
+    <details open>
+        <summary>Персональные данные</summary>
+        <div>
+            <p><strong>ID:</strong> @Model.UserId</p>
+            <p><strong>Фамилия:</strong> @Model.FirstName</p>
+            <p><strong>Имя:</strong> @Model.Name</p>
+            <p><strong>Возраст:</strong> @Model.Age</p>
+            <p><strong>Логин:</strong> @Model.Login</p>
+            <p><strong>Пароль:</strong> @Model.Password</p>
+        </div>
+    </details>
+    </div>
+    <div id="Tab2" class="tabcontent">
+    <details open>
+        <summary>Акции</summary>
+
+        <div class="button-container">
+            <!-- Круглая кнопка с изображением -->
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+
+            <!-- Блок с надписью -->
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+
+            <!-- Блок с надписью -->
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+
+            <!-- Блок с надписью -->
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+        </div>
+    </details>
+    </div>
+
+    <div id="Tab3" class="tabcontent">
+        <h3>Содержимое вкладки 3</h3>
+        <p>Это текст третьей вкладки.</p>
+    </div>
+
+    <script src="script.js"></script>
+
+
+
+
+
+<style>
+    /* Стили для контейнера */
+    .button-container {
+        flex-direction: row; /* Элементы в строку */
+        align-items: center; /* Выравнивание по центру по вертикали */
+        gap: 10px; /* Отступ между элементами */
+    }
+
+    /* Стили для круглой кнопки */
+    .round-button {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #007bff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+        /* Стили для изображения внутри кнопки */
+        .round-button img {
+            width: 60%;
+            height: 60%;
+            object-fit: cover;
+        }
+
+    /* Стили для блока с надписью */
+    .label {
+        margin-top: 10px;
+        font-size: 16px;
+        color: #333;
+        width: 100px;
+    }
+
+    /* Стили для вкладок */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Стили для кнопок вкладок */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Изменение цвета кнопок при наведении */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Активная кнопка */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Стили для содержимого вкладок */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+<script>
+    function openTab(evt, tabName) {
+        // Скрыть все вкладки
+        var tabcontent = document.getElementsByClassName("tabcontent");
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Убрать активный класс у всех кнопок
+        var tablinks = document.getElementsByClassName("tablinks");
+        for (var i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Показать текущую вкладку и добавить активный класс кнопке
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // По умолчанию открыть первую вкладку
+    document.getElementsByClassName("tablinks")[0].click();
+</script>
