@@ -48,5 +48,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: ./Investing/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/testrepo:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/investing:latest
+          build-args: |
+            PROJECT_PATH: Investing/Investing.csproj
