@@ -1,5 +1,3 @@
-name: netAnalysis
-
 on:
   push:
     branches: [ main, master ]
@@ -17,8 +15,11 @@ jobs:
         with:
           dotnet-version: "5.0.x"
 
-      - name: Run Roslyn Analyzers
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build with warnings as errors
         run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
 
-      - name: Run StyleCop
-        run: dotnet build /p:StyleCopEnabled=true
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
