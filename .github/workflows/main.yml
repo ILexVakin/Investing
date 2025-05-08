@@ -17,9 +17,6 @@ jobs:
         with:
           dotnet-version: "5.0"
 
-      - name: Install dotnet-format
-        run: dotnet tool install -g dotnet-format
-
       - name: Run Roslyn Analyzers 
         run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
 
