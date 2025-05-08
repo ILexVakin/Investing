@@ -8,16 +8,16 @@ on:
 
 jobs:
   analyze:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Setup .NET 5.0
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "5.0"
+          dotnet-version: "5.0.x"
 
-      - name: Run Roslyn Analyzers 
+      - name: Run Roslyn Analyzers
         run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
 
       - name: Run StyleCop
