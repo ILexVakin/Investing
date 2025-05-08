@@ -21,12 +21,9 @@ jobs:
         run: dotnet restore
 
       - name: Build with nullable checks
-        run: |
-          dotnet build \
-          --configuration Release \
-          --no-restore \
-          /p:Nullable=annotations \
-          /p:TreatWarningsAsErrors=false \
+        run:
+          dotnet build --configuration Release --no-restore
+          /p:Nullable=annotations /p:TreatWarningsAsErrors=false 
           /nowarn:CS8600,CS8602,CS8603,CS8604,CS8618,CS8625
 
       - name: Run tests
