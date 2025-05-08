@@ -2,8 +2,8 @@
 {
     public class UserInfoVM
     {
-        public Credentials Credentials { get; set; }
+        public Credentials? Credentials { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

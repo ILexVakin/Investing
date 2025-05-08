@@ -40,7 +40,7 @@ namespace Investing.Controllers
             if (Request.Cookies.ContainsKey(RememberMeCookieName))
             {
                 var cookieValue = Request.Cookies[RememberMeCookieName];
-                var credentials = cookieValue.Split(':');
+                string? [] credentials = cookieValue.Split(':');
                 var user = new Credentials
                 {
                     Login = credentials[0],

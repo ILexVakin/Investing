@@ -15,11 +15,11 @@ namespace Investing.TagHelpers
     {
 
         [HtmlAttributeName("item")]
-        public CombinedStocsVM Stock { get; set; }
+        public CombinedStocsVM? Stock { get; set; }
 
         [ViewContext]
         [HtmlAttributeNotBound]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
