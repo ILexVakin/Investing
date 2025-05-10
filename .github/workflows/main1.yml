@@ -5,7 +5,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-
+     
 jobs:
   dotnet-check:
     runs-on: windows-latest
