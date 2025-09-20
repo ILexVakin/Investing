@@ -1,5 +1,6 @@
 using Investing.Data;
 using Investing.Services;
+using Investing.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,8 +39,9 @@ namespace Investing
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
             services.AddHttpClient();
-            services.AddScoped<StockMoexApi>();
+            services.AddScoped<ReadingMoexData>();
 
+            services.AddScoped<ISearchExchangeInstrumentsService, SearchExchangeInstrumentsService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

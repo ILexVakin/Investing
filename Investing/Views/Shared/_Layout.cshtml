@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <script src="https://kit.fontawesome.com/fce9a50d02.js"
         crossorigin="anonymous">
@@ -16,12 +17,12 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
            
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Investing</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" alt="Профиль" class="logo-btn"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
@@ -37,14 +38,68 @@
         <nav class="top-menu">
             <ul class="menu-main">
                 <li><a asp-controller="Stock" asp-action="GetListStocks" class="current">Акции</a></li>
-                <li><a href="">Валюта</a></li>
-                <li><a href="">Облигации</a></li>
-                <li><a href="">Фонды</a></li>
-                <li><a href="">Фьючерсы</a></li>
+                <li><a asp-controller="Stock" asp-action="GetListCurrency">Валюта</a></li>
+                <li><a asp-controller="Stock" asp-action="GetListBonds">Облигации</a></li>
+                <li><a asp-controller="Stock" asp-action="GetListFunds">Фонды</a></li>
+                <li><a asp-controller="Stock" asp-action="GetListFutures">Фьючерсы</a></li>
             </ul>
         </nav>
         </div>
-    </header>
+        <div class="container">
+            <form asp-controller="Home" asp-action="Search" id="text-srch" method="get">
+                <input name="substring" class="input-srch" id="searchInput" type="text" placeholder="Поиск по названию, тикерy или ISIN-коду">
+                <button class="srch-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            #text-srch {
+                position: relative;
+                width: 75%;
+                margin: 0 auto;
+                background: #F9F0DA;
+                border-bottom: 4px solid #be290e;
+            }
+
+            .input-srch, .srch-button {
+                border: none;
+                outline: none;
+                background: transparent;
+            }
+
+            .input-srch {
+                width: 100%;
+                height: 42px;
+                padding-left: 15px;
+            }
+
+            .srch-button {
+                height: 42px;
+                width: 42px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                cursor: pointer;
+            }
+
+            .logo-btn {
+                width: 65px;
+                height: 65px;
+                border: none;
+                border-radius: 50%;
+                padding: 0;
+                cursor: pointer;
+                background: none;
+                transition: all 0.3s ease;
+                overflow: hidden;
+            }
+        </style>
+
+     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

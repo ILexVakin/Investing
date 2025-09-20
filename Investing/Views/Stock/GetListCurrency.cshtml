@@ -1,0 +1,28 @@
+@model List<Investing.Models.ViewModels.CombinedCurrencyVM>
+
+@{
+    ViewData["Title"] = "Валюты Московской биржи";
+}
+
+<h1>Валюты Московской биржи</h1>
+
+<table class="table" id="sortTable">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>За день</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Security.ShortName</td>
+                <td>@item.Marketdata.Last</td>
+                @* <td>@(item.Marketdata?.MARKETPRICE2?.ToString() ?? item.Marketdata?.LAST?.ToString() ?? item.Security?.PREVPRICE?.ToString() ?? "-")</td> *@
+            </tr>
+        }
+    </tbody>
+</table>
+

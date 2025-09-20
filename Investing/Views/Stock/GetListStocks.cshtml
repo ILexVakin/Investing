@@ -70,7 +70,24 @@
                 </td>
                 <td>@stock.Security.SECID</td>
                 <cost-difference item="@stock"></cost-difference>
-                <td>@(stock.Marketdata?.MARKETPRICE2?.ToString() ?? "-")</td>
+                <td>
+                    @{
+                        string priceText = "-";
+                        if (stock.Marketdata?.MARKETPRICE2 != null)
+                        {
+                            priceText = stock.Marketdata.MARKETPRICE2.Value.ToString();
+                        }
+                        else if (stock.Marketdata?.LAST != null)
+                        {
+                            priceText = stock.Marketdata.LAST.Value.ToString();
+                        }
+                        else if (stock.Security?.PREVPRICE != null)
+                        {
+                            priceText = stock.Security.PREVPRICE.Value.ToString();
+                        }
+                        @priceText
+                    }
+                </td>
                 
             </tr>
         } 

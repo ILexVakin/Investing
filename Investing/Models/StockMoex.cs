@@ -9,8 +9,8 @@
     public class MainMoex
     {
         public Charsetinfo charsetinfo { get; set; }
-        public Security[] securities { get; set; }
-        public Marketdata[] marketdata { get; set; }
+        public SecurityStock[] securities { get; set; }
+        public MarketdataStock[] marketdata { get; set; }
         public Dataversion[] dataversion { get; set; }
         public object[] marketdata_yields { get; set; }
     }
@@ -20,7 +20,7 @@
         public string name { get; set; }
     }
 
-    public class Security
+    public class SecurityStock
     {
         public string SECID { get; set; }
         public string BOARDID { get; set; }
@@ -51,7 +51,7 @@
         public string SETTLEDATE { get; set; }
     }
 
-    public class Marketdata
+    public class MarketdataStock
     {
         public string? SECID { get; set; }
         public string? BOARDID { get; set; }
@@ -65,7 +65,7 @@
         public float? OPEN { get; set; }
         public float? LOW { get; set; }
         public float? HIGH { get; set; }
-        public float? LAST { get; set; }
+        public decimal? LAST { get; set; }
         public int? LASTCHANGE { get; set; }
         public decimal? LASTCHANGEPRCNT { get; set; }
         public decimal? QTY { get; set; }

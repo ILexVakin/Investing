@@ -1,0 +1,28 @@
+@model List<Investing.Models.ViewModels.FutureItemVM>
+
+@{
+    ViewData["Title"] = "Фьючерсы Московской биржи";
+}
+
+<h1>Фьючерсы Московской биржи</h1>
+
+<table class="table" id="sortTable">
+    <thead>
+        <tr>
+            <th>Тикер</th>
+            <th>Название</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Security.SECID</td>
+                <td>@item.Security.SHORTNAME</td>
+                <td>@(item.Marketdata?.LAST?.ToString() ?? "-")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

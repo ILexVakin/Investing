@@ -1,51 +1,26 @@
-﻿using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System;
+﻿using Investing.Models.ViewModels;
 using Investing.Models;
 using System.Collections.Generic;
-using Investing.Models.ViewModels;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Net.Http;
 using System.Linq;
-using System.Diagnostics;
+using Investing.Services.Interfaces;
 
-namespace Investing.Services
+namespace Investing.Services.MoexData
 {
-    public class StockMoexApi
+    public class StockData
     {
-        private readonly HttpClient _httpClient;
-        List<Security> listSecurities = new List<Security>();
-        List<Marketdata> listMarketdata = new List<Marketdata>();
-
-        public StockMoexApi(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
-        //сделать в дальнейшем единый метод
-        private async Task<JsonElement> ReadAllRows(string url)
-        {
-            JsonElement root = new JsonElement();
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseData = await response.Content.ReadAsStringAsync();
-
-                using (JsonDocument doc = JsonDocument.Parse(responseData))
-                {
-                    root = doc.RootElement.Clone();
-                }
-            }
-            return root;
-        }
-
-        internal List<Security> GetSecurities(JsonElement securitiesRows)
+        List<SecurityStock> listSecurities = new List<SecurityStock>();
+        List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
+        IReadingMoexData moexData = new ReadingMoexData();
+        internal List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             // Обрабатываем данные
             for (int i = 0; i < securities.GetArrayLength(); i++)
             {
-                var stock = new Security
+                var stock = new SecurityStock
                 {
                     SECID = securities[i].GetProperty("SECID").GetString(),
                     SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
@@ -60,16 +35,20 @@ namespace Investing.Services
             }
             return listSecurities;
         }
-        internal List<Marketdata> GetMarketdata(JsonElement marketdataRows)
+        internal List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
             // Обрабатываем данные
 
             for (int i = 0; i < marketdata.GetArrayLength(); i++)
             {
-                var stock = new Marketdata
+                var stock = new MarketdataStock
                 {
                     SECID = marketdata[i].GetProperty("SECID").GetString(),
+                    BOARDID = marketdata[i].TryGetProperty("BOARDID", out var boardId)
+                                    && boardId.ValueKind != JsonValueKind.Null
+                                    ? boardId.GetString()
+                                    : null,
                     MARKETPRICE2 = marketdata[i].TryGetProperty("MARKETPRICE2", out var marketPrice)
                                     && marketPrice.ValueKind != JsonValueKind.Null
                                     ? marketPrice.GetDecimal()
@@ -88,41 +67,30 @@ namespace Investing.Services
             return listMarketdata;
         }
 
-        public async Task<List<CombinedStocsVM>> GetCombinedDataAsync()
+        public async Task<List<CombinedStocsVM>> CombinedStockDataAsync()
         {
-            var listDataStocks = await ReadAllRows("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.json=extended&limit=100");
+            var listDataStocks = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.json=extended&limit=100");
 
             Task getStocksData = new Task(() =>
             {
-                listSecurities = GetSecurities(listDataStocks);
-                listMarketdata = GetMarketdata(listDataStocks);
+                listSecurities = GetStockSecuritiesData(listDataStocks);
+                listMarketdata = GetStockMarketdata(listDataStocks);
             });
             getStocksData.RunSynchronously();
 
-            // Объединяем данные по SECID и BOARDID
-            var combinedData = listSecurities.Select(s => new CombinedStocsVM
-            {
-                Security = s,
-                Marketdata = listMarketdata.FirstOrDefault(m =>
-                    m.SECID == s.SECID && m.BOARDID == s.BOARDID)
-            }).ToList();
-            
+
+            var combinedData = listSecurities.GroupJoin(listMarketdata,
+              sec => sec.SECID,
+              mar => mar.SECID,
+              (sec, mar) => new CombinedStocsVM
+              { 
+                  Security = sec,
+                  Marketdata = mar.FirstOrDefault()
+              })
+              .ToList();
+
+
             return combinedData;
-        }
-
-
-        internal async Task<List<StockMoexUnion>> UnionImageStockAsync()
-        {
-            var listUnion = new List<StockMoexUnion>();
-            var listStocks = await GetCombinedDataAsync();
-            var l = new List<StockMoexUnion>()
-            {
-                new StockMoexUnion
-                {
-                 //   SecId = listStocks
-                }
-            };
-            return listUnion;
         }
     }
 }
