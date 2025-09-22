@@ -37,9 +37,9 @@ namespace Investing.Controllers
         }
         public async Task<IActionResult> Search(string substring) 
         {
-            if (string.IsNullOrEmpty(substring) || substring.Length < 3)
+            if (string.IsNullOrEmpty(substring) || substring.Length < 2)
             {
-                return BadRequest(new { error = "Минимум 3 символа" });
+                return BadRequest(new { error = "Минимум 2 символа" });
             }
 
             var results = await _searchService.SearchAllExchangeInstrumentsAsync(substring);

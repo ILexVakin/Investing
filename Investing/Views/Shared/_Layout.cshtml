@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Investing</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/layout.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -46,58 +47,20 @@
         </nav>
         </div>
         <div class="container">
-            <form asp-controller="Home" asp-action="Search" id="text-srch" method="get">
-                <input name="substring" class="input-srch" id="searchInput" type="text" placeholder="Поиск по названию, тикерy или ISIN-коду">
-                <button class="srch-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
+            <div class="search-container">
+                <form asp-controller="Home" asp-action="Search" id="text-srch" method="get">
+                    <input name="substring" class="input-srch" id="searchInput" type="text"
+                           placeholder="Поиск по названию, тикерy или ISIN-коду"
+                           onkeyup="searcs()" autocomplete="off">
+                    <button class="srch-button" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <div class="dropdown-results" id="dropdownResults">
+                        <ul id="dropdown-src"></ul>
+                    </div>
+                </form>
+            </div>
         </div>
-        <style>
-            * {
-                box-sizing: border-box;
-            }
-
-            #text-srch {
-                position: relative;
-                width: 75%;
-                margin: 0 auto;
-                background: #F9F0DA;
-                border-bottom: 4px solid #be290e;
-            }
-
-            .input-srch, .srch-button {
-                border: none;
-                outline: none;
-                background: transparent;
-            }
-
-            .input-srch {
-                width: 100%;
-                height: 42px;
-                padding-left: 15px;
-            }
-
-            .srch-button {
-                height: 42px;
-                width: 42px;
-                position: absolute;
-                top: 0;
-                right: 0;
-                cursor: pointer;
-            }
-
-            .logo-btn {
-                width: 65px;
-                height: 65px;
-                border: none;
-                border-radius: 50%;
-                padding: 0;
-                cursor: pointer;
-                background: none;
-                transition: all 0.3s ease;
-                overflow: hidden;
-            }
-        </style>
-
      </header>
 
     <div class="container">
@@ -116,65 +79,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-<style>
-.top-menu {
-  position: relative; 
-  background: #fff;
-  box-shadow: inset 0 0 10px #ccc;
-}
-.top-menu:before,
-.top-menu:after {
-  content: "";
-  display: block;
-  height: 1px;
-  border-top: 3px solid #575350;
-  border-bottom: 1px solid #575350;
-  margin-bottom: 2px;
-}
-.top-menu:after {
-  border-bottom: 3px solid #575350;
-  border-top: 1px solid #575350;
-  box-shadow: 0 2px 7px #ccc;
-  margin-top: 2px;
-}
-.menu-main {
-  list-style: none;
-  padding: 0 30px;
-  margin: 0;
-  font-size: 18px;
-  text-align: center;
-  position: relative;
-}
-.menu-main:before,
-.menu-main:after {
-  content: "\25C8";
-  line-height: 1;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.menu-main:before {left: 15px;}
-.menu-main:after {right: 15px;}
-.menu-main li {
-  display: inline-block;
-  padding: 5px 0;
-}
-.menu-main a {
-  text-decoration: none;
-  display: inline-block;
-  margin: 2px 5px;
-  padding: 6px 15px;
-  font-family: 'PT Sans', sans-serif;
-  font-size: 16px;
-  color: #777777;
-  border-bottom: 1px solid transparent;
-  transition: .3s linear;
-}
-.menu-main .current, .menu-main a:hover {
-  border-radius: 3px;
-  background: #f3ece1;
-  color: #313131;
-  text-shadow: 0 1px 0 #fff;
-  border-color: #c6c6c6;
-}
-</style>
