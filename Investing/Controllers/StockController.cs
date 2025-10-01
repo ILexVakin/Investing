@@ -22,8 +22,6 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListStocks()
         {
-            SearchImageService searchImage = new SearchImageService();
-            await searchImage.DownloadImage("SBER");
             StockData stockData = new StockData();
             return View(await stockData.CombinedStockDataAsync());
         }
