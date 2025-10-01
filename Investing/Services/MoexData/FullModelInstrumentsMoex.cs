@@ -11,10 +11,15 @@ namespace Investing.Services.MoexData
 {
     public class FullModelInstrumentsMoex : IFullModelInstrumentsMoex
     {
+        StockData stockData = new StockData();
+        CurrencyData currencyData = new CurrencyData();
+        BondData bondData = new BondData();
+        FundData  fundData = new FundData();
+        FuturesData futuresData = new FuturesData();
         public async Task<List<SingleModelExchangeInstruments>> GetStockFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listStocks = await StockData.CombinedStockDataAsync();
+            var listStocks = await stockData.CombinedStockDataAsync();
             foreach (var foundStock in listStocks)
             {
                 var stock = new SingleModelExchangeInstruments()
@@ -30,7 +35,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetCurrencyFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listCurrency = await CurrencyData.CombinedCurrencyDataAsync();
+            var listCurrency = await currencyData.CombinedCurrencyDataAsync();
 
             foreach (var foundCurrency in listCurrency)
             {
@@ -47,7 +52,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetBondFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listBond = await BondData.CombinedBondDataAsync();
+            var listBond = await bondData.CombinedBondDataAsync();
             foreach (var foundBond in listBond)
             {
                 var bond = new SingleModelExchangeInstruments()
@@ -63,7 +68,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetFundFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listFund = await FundData.CombinedFundDataAsync();
+            var listFund = await fundData.CombinedFundDataAsync();
             foreach (var fondFund in listFund)
             {
                 var bond = new SingleModelExchangeInstruments()
@@ -79,7 +84,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetFuturesFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listFutures = await FuturesData.CombinedFuturesDataAsync();
+            var listFutures = await futuresData.CombinedFuturesDataAsync();
             foreach (var fundBond in listFutures)
             {
                 var bond = new SingleModelExchangeInstruments()

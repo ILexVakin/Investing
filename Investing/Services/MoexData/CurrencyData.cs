@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Investing.Services.MoexData
 {
-    public static class CurrencyData
+    public class CurrencyData
     {
-        static List<CurrencySecurity> listSecurities = new List<CurrencySecurity>();
-        static List<CurrencyMarketdata> listMarketdata = new List<CurrencyMarketdata>();
-        static IReadingMoexData moexData = new ReadingMoexData();
+         List<CurrencySecurity> listSecurities = new List<CurrencySecurity>();
+         List<CurrencyMarketdata> listMarketdata = new List<CurrencyMarketdata>();
+         IReadingMoexData moexData = new ReadingMoexData();
 
-        static List<CurrencySecurity> GetCurrencySecuritiesData(JsonElement securitiesRows)
+        List<CurrencySecurity> GetCurrencySecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
@@ -33,7 +33,7 @@ namespace Investing.Services.MoexData
             return listSecurities;
         }
 
-        static List<CurrencyMarketdata> GetCurrencyMarketdata(JsonElement marketdataRows)
+        List<CurrencyMarketdata> GetCurrencyMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
             for (int i = 0; i < marketdata.GetArrayLength(); i++)
@@ -55,7 +55,7 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public static async Task<List<CombinedCurrencyVM>> CombinedCurrencyDataAsync()
+        public async Task<List<CombinedCurrencyVM>> CombinedCurrencyDataAsync()
         {
             var listCurrency = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/currency/markets/selt/boards/CETS/securities.json?iss.meta=off&iss.json=extended&limit=100");
             Task getCurrencyData = new Task(() =>

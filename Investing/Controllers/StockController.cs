@@ -24,7 +24,8 @@ namespace Investing.Controllers
         {
             SearchImageService searchImage = new SearchImageService();
             await searchImage.DownloadImage("SBER");
-            return View(await StockData.CombinedStockDataAsync());
+            StockData stockData = new StockData();
+            return View(await stockData.CombinedStockDataAsync());
         }
 
         //public async Task<ActionResult> Details(int id)

@@ -9,13 +9,13 @@ using System;
 
 namespace Investing.Services.MoexData
 {
-    public static class BondData
+    public class BondData
     {
-        static List<BondSecurity> listSecurities = new List<BondSecurity>();
-        static List<BondMarketdata> listMarketdata = new List<BondMarketdata>();
-        static IReadingMoexData moexData = new ReadingMoexData();
+         List<BondSecurity> listSecurities = new List<BondSecurity>();
+         List<BondMarketdata> listMarketdata = new List<BondMarketdata>();
+         IReadingMoexData moexData = new ReadingMoexData();
 
-        static List<BondSecurity> GetBondSecuritiesData(JsonElement securitiesRows)
+        List<BondSecurity> GetBondSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
@@ -43,7 +43,7 @@ namespace Investing.Services.MoexData
             }
             return listSecurities;
         }
-        static List<BondMarketdata> GetBondMarketdata(JsonElement marketdataRows)
+        List<BondMarketdata> GetBondMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 
@@ -74,7 +74,7 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public static async Task<List<BondItemVM>> CombinedBondDataAsync()
+        public async Task<List<BondItemVM>> CombinedBondDataAsync()
         {
             var listDataBond = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/bonds/boards/TQCB/securities.json?iss.meta=off&iss.json=extended&limit=100");
 

@@ -9,7 +9,8 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListBonds()
         {
-            return View(await BondData.CombinedBondDataAsync());
+            BondData bondData = new BondData();
+            return View(await bondData.CombinedBondDataAsync());
         }
     }
 }

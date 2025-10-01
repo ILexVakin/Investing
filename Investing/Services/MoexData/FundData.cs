@@ -9,13 +9,13 @@ using System;
 
 namespace Investing.Services.MoexData
 {
-    public static class FundData
+    public class FundData
     {
-        static List<FundSecurity> listSecurities = new List<FundSecurity>();
-        static List<FundMarketdata> listMarketdata = new List<FundMarketdata>();
-        static IReadingMoexData moexData = new ReadingMoexData();
+         List<FundSecurity> listSecurities = new List<FundSecurity>();
+         List<FundMarketdata> listMarketdata = new List<FundMarketdata>();
+         IReadingMoexData moexData = new ReadingMoexData();
 
-        static List<FundSecurity> GetFundSecuritiesData(JsonElement securitiesRows)
+         List<FundSecurity> GetFundSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
@@ -44,7 +44,7 @@ namespace Investing.Services.MoexData
             return listSecurities;
         }
 
-        static List<FundMarketdata> GetFundMarketdata(JsonElement marketdataRows)
+        List<FundMarketdata> GetFundMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 
@@ -74,7 +74,7 @@ namespace Investing.Services.MoexData
 
             return listMarketdata;
         }
-        public static async Task<List<Funds>> CombinedFundDataAsync()
+        public async Task<List<Funds>> CombinedFundDataAsync()
         {
             var listDataFund = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQTF/securities.json?iss.meta=off&iss.json=extended&limit=100");
 

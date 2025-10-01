@@ -9,12 +9,12 @@ using Investing.Services.Interfaces;
 
 namespace Investing.Services.MoexData
 {
-    public static class StockData
+    public class StockData
     {
-        static List<SecurityStock> listSecurities = new List<SecurityStock>();
-        static List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
-        static IReadingMoexData moexData = new ReadingMoexData();
-        static List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
+        List<SecurityStock> listSecurities = new List<SecurityStock>();
+        List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
+        IReadingMoexData moexData = new ReadingMoexData();
+        List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             
@@ -35,7 +35,7 @@ namespace Investing.Services.MoexData
             }
             return listSecurities;
         }
-        static List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
+        List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 
@@ -66,7 +66,7 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public static async Task<List<CombinedStocsVM>> CombinedStockDataAsync()
+        public async Task<List<CombinedStocsVM>> CombinedStockDataAsync()
         {
             var listDataStocks = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.json=extended&limit=100");
 

@@ -9,13 +9,13 @@ using System;
 
 namespace Investing.Services.MoexData
 {
-    public static class FuturesData
+    public class FuturesData
     {
-        static List<FuturesSecurity> listSecurities = new List<FuturesSecurity>();
-        static List<FuturesMarketdata> listMarketdata = new List<FuturesMarketdata>();
-        static IReadingMoexData moexData = new ReadingMoexData();
+         List<FuturesSecurity> listSecurities = new List<FuturesSecurity>();
+         List<FuturesMarketdata> listMarketdata = new List<FuturesMarketdata>();
+         IReadingMoexData moexData = new ReadingMoexData();
 
-        static List<FuturesSecurity> GetFuturesSecuritiesData(JsonElement securitiesRows)
+         List<FuturesSecurity> GetFuturesSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
@@ -35,7 +35,7 @@ namespace Investing.Services.MoexData
             return listSecurities;
         }
 
-        static List<FuturesMarketdata> GetFuturesMarketdata(JsonElement marketdataRows)
+        List<FuturesMarketdata> GetFuturesMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 
@@ -61,7 +61,7 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public static async Task<List<Futures>> CombinedFuturesDataAsync()
+        public async Task<List<Futures>> CombinedFuturesDataAsync()
         {
             var listDataFutures = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities.json?iss.meta=off&iss.json=extended&limit=100");
 
