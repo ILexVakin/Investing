@@ -2,8 +2,8 @@ namespace Investing.Models.ViewModels
 {
     public class FutureItemVM
     {
-        public FutureSecurity Security { get; set; }
-        public FutureMarketdata Marketdata { get; set; }
+        public FuturesSecurity Security { get; set; }
+        public FuturesMarketdata Marketdata { get; set; }
     }
 }
 

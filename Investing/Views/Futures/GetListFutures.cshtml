@@ -1,4 +1,4 @@
-@model List<Investing.Models.ViewModels.FutureItemVM>
+﻿@model List<Investing.Models.Futures>
 
 @{
     ViewData["Title"] = "Фьючерсы Московской биржи";
@@ -18,8 +18,8 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Security.SECID</td>
-                <td>@item.Security.SHORTNAME</td>
+                <td>@item.Securities.SECID</td>
+                <td>@item.Securities.SHORTNAME</td>
                 <td>@(item.Marketdata?.LAST?.ToString() ?? "-")</td>
             </tr>
         }

@@ -10,7 +10,7 @@ namespace Investing.Controllers
         public async Task<IActionResult> GetListFunds()
         {
             FundData fundData = new FundData();
-            var fundList = await fundData.GetFundsAsync();
+            var fundList = await fundData.CombinedFundDataAsync();
             return View(fundList);
         }
     }

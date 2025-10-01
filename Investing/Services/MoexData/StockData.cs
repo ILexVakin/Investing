@@ -14,7 +14,7 @@ namespace Investing.Services.MoexData
         List<SecurityStock> listSecurities = new List<SecurityStock>();
         List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
         IReadingMoexData moexData = new ReadingMoexData();
-        internal List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
+        List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
             
@@ -35,7 +35,7 @@ namespace Investing.Services.MoexData
             }
             return listSecurities;
         }
-        internal List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
+        List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 

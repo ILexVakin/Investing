@@ -5,48 +5,86 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Investing.Services.Interfaces;
 using System.Linq;
+using System;
 
 namespace Investing.Services.MoexData
 {
     public class FuturesData
     {
+        List<FuturesSecurity> listSecurities = new List<FuturesSecurity>();
+        List<FuturesMarketdata> listMarketdata = new List<FuturesMarketdata>();
         IReadingMoexData moexData = new ReadingMoexData();
-        public async Task<List<CombinedStocsVM>> GetFuturesAsync()
-        {
-            var listData = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities.json?iss.meta=off&iss.json=extended&limit=100");
-            var futureSecurities = new List<FutureSecurity>();
-            var futureMarketdata = new List<FutureMarketdata>();
 
-            JsonElement securities = listData[1].GetProperty("securities");
+        List<FuturesSecurity> GetFuturesSecuritiesData(JsonElement securitiesRows)
+        {
+            JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
             {
-                futureSecurities.Add(new FutureSecurity
+                var futures = new FuturesSecurity
                 {
                     SECID = securities[i].GetProperty("SECID").GetString(),
                     SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
-                    BOARDID = securities[i].TryGetProperty("BOARDID", out var board) && board.ValueKind != JsonValueKind.Null ? board.GetString() : null
-                });
+                    PREVPRICE = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
+                                                && prevPrice.ValueKind != JsonValueKind.Null
+                                    ? prevPrice.GetDecimal() : (decimal?)null,
+                    SECNAME = securities[i].GetProperty("SECNAME").GetString(),
+                    LATNAME = securities[i].GetProperty("LATNAME").GetString(),
+                };
+                listSecurities.Add(futures);
             }
+            return listSecurities;
+        }
 
-            JsonElement marketdata = listData[1].GetProperty("marketdata");
+        List<FuturesMarketdata> GetFuturesMarketdata(JsonElement marketdataRows)
+        {
+            JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
+
             for (int i = 0; i < marketdata.GetArrayLength(); i++)
             {
-                futureMarketdata.Add(new FutureMarketdata
+                var stock = new FuturesMarketdata
                 {
                     SECID = marketdata[i].GetProperty("SECID").GetString(),
-                    BOARDID = marketdata[i].TryGetProperty("BOARDID", out var board) && board.ValueKind != JsonValueKind.Null ? board.GetString() : null,
-                    LAST = marketdata[i].TryGetProperty("LAST", out var last) && last.ValueKind != JsonValueKind.Null ? last.GetDecimal() : null,
-                    TRADINGSTATUS = marketdata[i].TryGetProperty("TRADINGSTATUS", out var ts) && ts.ValueKind != JsonValueKind.Null ? ts.GetString() : null
-                });
+                    BOARDID = marketdata[i].TryGetProperty("BOARDID", out var boardId)
+                                    && boardId.ValueKind != JsonValueKind.Null
+                                    ? boardId.GetString()
+                                    : null,
+                    LASTTOPREVPRICE = marketdata[i].TryGetProperty("LASTTOPREVPRICE", out var lastTopPrevPrice)
+                                    && lastTopPrevPrice.ValueKind != JsonValueKind.Null
+                                    ? lastTopPrevPrice.GetDecimal()
+                                    : (decimal?)null,
+                    //SHORTNAME = marketdata[i].GetProperty("SHORTNAME").GetString(),
+                    //PREVPRICE = (float?)marketdata[i].GetProperty("PREVPRICE").GetDouble()
+                };
+                listMarketdata.Add(stock);
             }
 
-            var result = futureSecurities.Select(s => new CombinedStocsVM
-            {
-                Security = new SecurityStock { SECID = s.SECID, SHORTNAME = s.SHORTNAME, BOARDID = s.BOARDID },
-                Marketdata = new MarketdataStock { SECID = s.SECID, BOARDID = s.BOARDID, LAST = futureMarketdata.FirstOrDefault(m => m.SECID == s.SECID && m.BOARDID == s.BOARDID)?.LAST, TRADINGSTATUS = futureMarketdata.FirstOrDefault(m => m.SECID == s.SECID && m.BOARDID == s.BOARDID)?.TRADINGSTATUS }
-            }).ToList();
+            return listMarketdata;
+        }
 
-            return result;
+        public async Task<List<Futures>> CombinedFuturesDataAsync()
+        {
+            var listDataFutures = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/futures/markets/forts/boards/RFUD/securities.json?iss.meta=off&iss.json=extended&limit=100");
+
+            Task getBondsData = new Task(() =>
+            {
+                listSecurities = GetFuturesSecuritiesData(listDataFutures);
+                listMarketdata = GetFuturesMarketdata(listDataFutures);
+            });
+            getBondsData.RunSynchronously();
+
+
+            var combinedData = listSecurities.GroupJoin(listMarketdata,
+              sec => sec.SECID,
+              mar => mar.SECID,
+              (sec, mar) => new Futures
+              {
+                  Securities = sec,
+                  Marketdata = mar.FirstOrDefault()
+              })
+              .ToList();
+
+
+            return combinedData;
         }
     }
 }

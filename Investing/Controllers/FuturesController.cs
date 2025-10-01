@@ -10,7 +10,7 @@ namespace Investing.Controllers
         public async Task<IActionResult> GetListFutures()
         {
             FuturesData futuresData = new FuturesData();
-            var futuresList = await futuresData.GetFuturesAsync();
+            var futuresList = await futuresData.CombinedFuturesDataAsync();
             return View(futuresList);
         }
     }

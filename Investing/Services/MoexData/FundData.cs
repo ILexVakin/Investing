@@ -5,51 +5,99 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Investing.Services.Interfaces;
 using System.Linq;
+using System;
 
 namespace Investing.Services.MoexData
 {
     public class FundData
     {
+        List<FundSecurity> listSecurities = new List<FundSecurity>();
+        List<FundMarketdata> listMarketdata = new List<FundMarketdata>();
         IReadingMoexData moexData = new ReadingMoexData();
 
-        public async Task<List<CombinedStocsVM>> GetFundsAsync()
+        List<FundSecurity> GetFundSecuritiesData(JsonElement securitiesRows)
         {
-            var listData = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/etf/boards/TQTF/securities.json?iss.meta=off&iss.json=extended&limit=100");
-            var fundSecurities = new List<FundSecurity>();
-            var fundMarketdata = new List<FundMarketdata>();
-
-            JsonElement securities = listData[1].GetProperty("securities");
+            JsonElement securities = securitiesRows[1].GetProperty("securities");
             for (int i = 0; i < securities.GetArrayLength(); i++)
             {
-                fundSecurities.Add(new FundSecurity
+                var fund = new FundSecurity
                 {
                     SECID = securities[i].GetProperty("SECID").GetString(),
                     SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
-                    PREVPRICE = (float?)securities[i].GetProperty("PREVPRICE").GetDouble(),
-                    BOARDID = securities[i].TryGetProperty("BOARDID", out var board) && board.ValueKind != JsonValueKind.Null ? board.GetString() : null
-                });
+                    PREVPRICE = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
+                                                && prevPrice.ValueKind != JsonValueKind.Null
+                                    ? prevPrice.GetDecimal() : (decimal?)null,
+                    LOTSIZE = securities[i].TryGetProperty("LOTSIZE", out var lotSize)
+                    && lotSize.ValueKind != JsonValueKind.Null
+                                    ? lotSize.GetInt32() : (Int32?)null,
+                    FACEVALUE = securities[i].TryGetProperty("FACEVALUE", out var faceValue)
+                    && faceValue.ValueKind != JsonValueKind.Null
+                                    ? faceValue.GetInt32() : (Int32?)null,
+                    SECNAME = securities[i].GetProperty("SECNAME").GetString(),
+                    LATNAME = securities[i].GetProperty("LATNAME").GetString(),
+                    PREVLEGALCLOSEPRICE = securities[i].TryGetProperty("PREVLEGALCLOSEPRICE", out var closePrice)
+                    && closePrice.ValueKind != JsonValueKind.Null
+                                    ? closePrice.GetDecimal() : (decimal?)null,
+                };
+                listSecurities.Add(fund);
             }
+            return listSecurities;
+        }
 
-            JsonElement marketdata = listData[1].GetProperty("marketdata");
+        List<FundMarketdata> GetFundMarketdata(JsonElement marketdataRows)
+        {
+            JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
+
             for (int i = 0; i < marketdata.GetArrayLength(); i++)
             {
-                fundMarketdata.Add(new FundMarketdata
+                var fund = new FundMarketdata
                 {
                     SECID = marketdata[i].GetProperty("SECID").GetString(),
-                    BOARDID = marketdata[i].TryGetProperty("BOARDID", out var board) && board.ValueKind != JsonValueKind.Null ? board.GetString() : null,
-                    MARKETPRICE2 = marketdata[i].TryGetProperty("MARKETPRICE2", out var mp2) && mp2.ValueKind != JsonValueKind.Null ? mp2.GetDecimal() : (decimal?)null,
-                    LAST = marketdata[i].TryGetProperty("LAST", out var last) && last.ValueKind != JsonValueKind.Null ? last.GetDecimal() : null,
-                    TRADINGSTATUS = marketdata[i].TryGetProperty("TRADINGSTATUS", out var ts) && ts.ValueKind != JsonValueKind.Null ? ts.GetString() : null
-                });
+                    BOARDID = marketdata[i].TryGetProperty("BOARDID", out var boardId)
+                                    && boardId.ValueKind != JsonValueKind.Null
+                                    ? boardId.GetString()
+                                    : null,
+                    MARKETPRICE2 = marketdata[i].TryGetProperty("MARKETPRICE2", out var marketPrice)
+                                    && marketPrice.ValueKind != JsonValueKind.Null
+                                    ? marketPrice.GetDecimal()
+                                    : (decimal?)null,
+                    TRADINGSTATUS = marketdata[i].GetProperty("TRADINGSTATUS").GetString(),
+                    LASTTOPREVPRICE = marketdata[i].TryGetProperty("LASTTOPREVPRICE", out var lastTopPrevPrice)
+                                    && lastTopPrevPrice.ValueKind != JsonValueKind.Null
+                                    ? lastTopPrevPrice.GetDecimal()
+                                    : (decimal?)null,
+                    //SHORTNAME = marketdata[i].GetProperty("SHORTNAME").GetString(),
+                    //PREVPRICE = (float?)marketdata[i].GetProperty("PREVPRICE").GetDouble()
+                };
+                listMarketdata.Add(fund);
             }
 
-            var result = fundSecurities.Select(s => new CombinedStocsVM
-            {
-                Security = new SecurityStock { SECID = s.SECID, SHORTNAME = s.SHORTNAME, PREVPRICE = s.PREVPRICE, BOARDID = s.BOARDID },
-                Marketdata = new MarketdataStock { SECID = s.SECID, BOARDID = s.BOARDID, MARKETPRICE2 = fundMarketdata.FirstOrDefault(m => m.SECID == s.SECID && m.BOARDID == s.BOARDID)?.MARKETPRICE2, LAST = fundMarketdata.FirstOrDefault(m => m.SECID == s.SECID && m.BOARDID == s.BOARDID)?.LAST, TRADINGSTATUS = fundMarketdata.FirstOrDefault(m => m.SECID == s.SECID && m.BOARDID == s.BOARDID)?.TRADINGSTATUS }
-            }).ToList();
+            return listMarketdata;
+        }
+        public async Task<List<Funds>> CombinedFundDataAsync()
+        {
+            var listDataFund = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQTF/securities.json?iss.meta=off&iss.json=extended&limit=100");
 
-            return result;
+            Task getFundsData = new Task(() =>
+            {
+                listSecurities = GetFundSecuritiesData(listDataFund);
+                listMarketdata = GetFundMarketdata(listDataFund);
+            });
+            getFundsData.RunSynchronously();
+
+
+            var combinedData = listSecurities.GroupJoin(listMarketdata,
+              sec => sec.SECID,
+              mar => mar.SECID,
+              (sec, mar) => new Funds
+              {
+                  Security = sec,
+                  Marketdata = mar.FirstOrDefault()
+              })
+              .ToList();
+
+
+            return combinedData;
         }
     }
 }
