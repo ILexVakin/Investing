@@ -9,9 +9,9 @@ namespace Investing.Services.Interfaces
     {
         Task<JsonElement> GetAllRowsByExchange(string url);
         //Task<List<CombinedCurrencyVM>> GetCurrencyAsync();
-        Task<List<CombinedStocsVM>> GetBondsAsync();
-        Task<List<CombinedStocsVM>> GetFundsAsync();
-        Task<List<CombinedStocsVM>> GetFuturesAsync();
+        //Task<List<BondItemVM>> GetBondsAsync();
+        //Task<List<CombinedStocsVM>> GetFundsAsync();
+        //Task<List<CombinedStocsVM>> GetFuturesAsync();
 
     }
 }

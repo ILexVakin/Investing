@@ -1,10 +1,12 @@
 ﻿using Investing.Models;
+using Investing.Services;
 using Investing.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +21,7 @@ namespace Investing.Controllers
             _logger = logger;
             _searchService = searchService;
         }
-
+        //[HttpGet("index")]
         public IActionResult Index()
         {
             return View();
@@ -35,15 +37,12 @@ namespace Investing.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public async Task<IActionResult> Search(string substring) 
-        {
-            if (string.IsNullOrEmpty(substring) || substring.Length < 2)
-            {
-                return BadRequest(new { error = "Минимум 2 символа" });
-            }
 
-            var results = await _searchService.SearchAllExchangeInstrumentsAsync(substring);
-            return Ok(new { substring, results });
+        [HttpGet("api/home/getinstruments")]
+        public async Task<JsonResult> GetInstruments()
+        {
+            var results = await _searchService.SearchAllExchangeInstrumentsAsync();
+            return Json(results);
         }
     }
 }

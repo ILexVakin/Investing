@@ -3,45 +3,53 @@ using Investing.Models;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Net.Http;
 using System.Linq;
 using Investing.Services.Interfaces;
+using System;
 
 namespace Investing.Services.MoexData
 {
-    public class StockData
+    public class BondData
     {
-        List<SecurityStock> listSecurities = new List<SecurityStock>();
-        List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
+        List<BondSecurity> listSecurities = new List<BondSecurity>();
+        List<BondMarketdata> listMarketdata = new List<BondMarketdata>();
         IReadingMoexData moexData = new ReadingMoexData();
-        internal List<SecurityStock> GetStockSecuritiesData(JsonElement securitiesRows)
+
+        List<BondSecurity> GetBondSecuritiesData(JsonElement securitiesRows)
         {
             JsonElement securities = securitiesRows[1].GetProperty("securities");
-            
             for (int i = 0; i < securities.GetArrayLength(); i++)
             {
-                var stock = new SecurityStock
+                var stock = new BondSecurity
                 {
                     SECID = securities[i].GetProperty("SECID").GetString(),
                     SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
-                    PREVPRICE = (float?)securities[i].GetProperty("PREVPRICE").GetDouble(),
-                    LOTSIZE = securities[i].GetProperty("LOTSIZE").GetInt32(),
-                    FACEVALUE = (float)securities[i].GetProperty("FACEVALUE").GetDouble(),
+                    PREVPRICE = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
+                                                && prevPrice.ValueKind != JsonValueKind.Null
+                                    ? prevPrice.GetDecimal() : (decimal?)null,
+                    LOTSIZE = securities[i].TryGetProperty("LOTSIZE", out var lotSize)
+                    && lotSize.ValueKind != JsonValueKind.Null
+                                    ? lotSize.GetInt32() : (Int32?)null,
+                    FACEVALUE = securities[i].TryGetProperty("FACEVALUE", out var faceValue)
+                    && faceValue.ValueKind != JsonValueKind.Null
+                                    ? faceValue.GetDouble() : (double?)null,
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
                     LATNAME = securities[i].GetProperty("LATNAME").GetString(),
-                    PREVLEGALCLOSEPRICE = (float?)securities[i].GetProperty("PREVLEGALCLOSEPRICE").GetDouble()
+                    PREVLEGALCLOSEPRICE = securities[i].TryGetProperty("PREVLEGALCLOSEPRICE", out var closePrice)
+                    && closePrice.ValueKind != JsonValueKind.Null
+                                    ? closePrice.GetDecimal() : (decimal?)null,
                 };
                 listSecurities.Add(stock);
             }
             return listSecurities;
         }
-        internal List<MarketdataStock> GetStockMarketdata(JsonElement marketdataRows)
+        List<BondMarketdata> GetBondMarketdata(JsonElement marketdataRows)
         {
             JsonElement marketdata = marketdataRows[1].GetProperty("marketdata");
 
             for (int i = 0; i < marketdata.GetArrayLength(); i++)
             {
-                var stock = new MarketdataStock
+                var stock = new BondMarketdata
                 {
                     SECID = marketdata[i].GetProperty("SECID").GetString(),
                     BOARDID = marketdata[i].TryGetProperty("BOARDID", out var boardId)
@@ -66,23 +74,23 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public async Task<List<CombinedStocsVM>> CombinedStockDataAsync()
+        public async Task<List<BondItemVM>> CombinedBondDataAsync()
         {
-            var listDataStocks = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.json=extended&limit=100");
+            var listDataBond = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/bonds/boards/TQCB/securities.json?iss.meta=off&iss.json=extended&limit=100");
 
-            Task getStocksData = new Task(() =>
+            Task getBondsData = new Task(() =>
             {
-                listSecurities = GetStockSecuritiesData(listDataStocks);
-                listMarketdata = GetStockMarketdata(listDataStocks);
+                listSecurities = GetBondSecuritiesData(listDataBond);
+                listMarketdata = GetBondMarketdata(listDataBond);
             });
-            getStocksData.RunSynchronously();
+            getBondsData.RunSynchronously();
 
 
             var combinedData = listSecurities.GroupJoin(listMarketdata,
               sec => sec.SECID,
               mar => mar.SECID,
-              (sec, mar) => new CombinedStocsVM
-              { 
+              (sec, mar) => new BondItemVM
+              {
                   Security = sec,
                   Marketdata = mar.FirstOrDefault()
               })

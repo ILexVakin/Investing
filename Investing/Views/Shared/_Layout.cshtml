@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
            
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" alt="Профиль" class="logo-btn"></a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" alt="Профиль" class="logo-btn"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,10 +26,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
                         </li>
                     </ul>
                 </div>
@@ -39,20 +39,22 @@
         <nav class="top-menu">
             <ul class="menu-main">
                 <li><a asp-controller="Stock" asp-action="GetListStocks" class="current">Акции</a></li>
-                <li><a asp-controller="Stock" asp-action="GetListCurrency">Валюта</a></li>
-                <li><a asp-controller="Stock" asp-action="GetListBonds">Облигации</a></li>
-                <li><a asp-controller="Stock" asp-action="GetListFunds">Фонды</a></li>
-                <li><a asp-controller="Stock" asp-action="GetListFutures">Фьючерсы</a></li>
+                <li><a asp-controller="Currency" asp-action="GetListCurrency">Валюта</a></li>
+                <li><a asp-controller="Bond" asp-action="GetListBonds">Облигации</a></li>
+                <li><a asp-controller="Fund" asp-action="GetListFunds">Фонды</a></li>
+                <li><a asp-controller="Futures" asp-action="GetListFutures">Фьючерсы</a></li>
             </ul>
         </nav>
         </div>
         <div class="container">
             <div class="search-container">
-                <form asp-controller="Home" asp-action="Search" id="text-srch" method="get">
+                <form asp-controller="Instrument" asp-action="GetListInstruments" id="text-srch" method="get">
                     <input name="substring" class="input-srch" id="searchInput" type="text"
                            placeholder="Поиск по названию, тикерy или ISIN-коду"
-                           onkeyup="searcs()" autocomplete="off">
-                    <button class="srch-button" type="submit">
+                           oninput="debouncedSearch()"
+                           onfocus="handleFocus()"
+                           autocomplete="off">
+                    <button class="srch-button" type="submit" onclick="searchOnServer()">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                     <div class="dropdown-results" id="dropdownResults">
@@ -62,7 +64,11 @@
             </div>
         </div>
      </header>
-
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAllInstruments();
+        });
+     </script>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -76,6 +82,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/layout.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

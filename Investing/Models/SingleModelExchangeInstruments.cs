@@ -1,4 +1,6 @@
-﻿namespace Investing.Models
+﻿using static Investing.Services.MoexData.FullModelInstrumentsMoex;
+
+namespace Investing.Models
 {
     public class SingleModelExchangeInstruments
     {  
@@ -7,7 +9,7 @@
         public string ShortName { get; set; }
 
         // тип инструмента (акции, облигации и тд)
-        public string TypeExchange {  get; set; }
+        public TypeInstrument TypeInstrument {  get; set; }
         public decimal? PriceChange {  get; set; }
         public string? ImageUrl { get; set; } = string.Empty;
     }

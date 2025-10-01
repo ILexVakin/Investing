@@ -5,6 +5,41 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
+<div>
+    <div class="recomenation-instruments">
+        <h2>Рекомендации</h2>
+        <div class="button-container">
+            <div class="button-group">
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+            
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+            </div>
+
+        <div class="button-group">
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="round-button">
+                <img src="https://via.placeholder.com/50" alt="Изображение">
+            </button>
+
+            <div class="label">
+                Надпись под кнопкой
+            </div>
+            </div>
+        </div>
+     </div>
+ 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -58,6 +93,8 @@
     </section>
     </div>
 </div>
+</div>
+
 <style>
 
     /* Стили для горизонтальных секций */
@@ -81,5 +118,48 @@
 
         .section p {
             color: #555;
+        }
+
+        /* рекомендации */
+    .recomenation-instruments {
+        padding: 20px;
+    }
+
+    .button-container {
+        flex-direction: row; 
+        align-items: flex-start;
+        gap: 30px;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        gap: 10px;
+    }
+
+    
+    .round-button {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #007bff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .round-button img {
+            width: 60%;
+            height: 60%;
+            object-fit: cover;
         }
 </style>

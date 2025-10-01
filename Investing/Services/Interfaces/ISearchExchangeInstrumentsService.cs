@@ -7,6 +7,7 @@ namespace Investing.Services.Interfaces
 {
     public interface ISearchExchangeInstrumentsService
     {
-        Task<List<SingleModelExchangeInstruments>> SearchAllExchangeInstrumentsAsync(string query);
+        Task<List<SingleModelExchangeInstruments>> SearchAllExchangeInstrumentsAsync();
+        Task<List<SingleModelExchangeInstruments>> SearchAllExchangeInstrumentsBySubstringAsync(string substring);
     }
 }
