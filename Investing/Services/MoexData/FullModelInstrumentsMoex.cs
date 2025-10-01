@@ -24,7 +24,9 @@ namespace Investing.Services.MoexData
             {
                 var stock = new SingleModelExchangeInstruments()
                 {
-                    ShortName = foundStock.Security.SHORTNAME,
+                    SecName = foundStock.Security.SECNAME,
+                    SecId = foundStock.Security.SECID,
+                    Isin = foundStock.Security.ISIN,
                     PriceChange = foundStock.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Stock
                 };
@@ -41,8 +43,9 @@ namespace Investing.Services.MoexData
             {
                 var currency = new SingleModelExchangeInstruments()
                 {
-                    ShortName = foundCurrency.Security.ShortName,
-                    PriceChange = foundCurrency.Marketdata.MarketPrice,
+                    SecName = foundCurrency.Security.SECNAME,
+                    SecId = foundCurrency.Security.SECID,
+                    PriceChange = foundCurrency.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Currency
                 };
                 listInstruments.Add(currency);
@@ -57,7 +60,9 @@ namespace Investing.Services.MoexData
             {
                 var bond = new SingleModelExchangeInstruments()
                 {
-                    ShortName = foundBond.Security.SHORTNAME,
+                    SecName = foundBond.Security.SECNAME,
+                    SecId = foundBond.Security.SECID,
+                    Isin = foundBond.Security.ISIN,
                     PriceChange = foundBond.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Bond
                 };
@@ -73,7 +78,9 @@ namespace Investing.Services.MoexData
             {
                 var bond = new SingleModelExchangeInstruments()
                 {
-                    ShortName = fondFund.Security.SHORTNAME,
+                    SecName = fondFund.Security.SECNAME,
+                    SecId = fondFund.Security.SECID,
+                    Isin = fondFund.Security.ISIN,
                     PriceChange = fondFund.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Fund
                 };
@@ -91,6 +98,8 @@ namespace Investing.Services.MoexData
                 {
                     //ShortName = fundBond.Security.SHORTNAME,
                     //PriceChange = fundBond.Marketdata.MARKETPRICE,
+                    SecName = fundBond.Securities.SECNAME,
+                    SecId = fundBond.Securities.SECID,
                     TypeInstrument = TypeInstrument.Futures
                 };
                 listInstruments.Add(bond);

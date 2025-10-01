@@ -19,27 +19,37 @@ namespace Investing.Services
         public async Task<List<SingleModelExchangeInstruments>> GetStocksBySubstringAsync()
         {
             var listStocks = await fullModelInstruments.GetStockFullModelAsync();
-            return listStocks.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+            return listStocks.Where(c => c != null && (c.SecName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true ||
+                                                       c.SecId?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true) ||
+                                                       c.Isin?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
         public async Task<List<SingleModelExchangeInstruments>> GetCurrencyBySubstringAsync()
         {
             var listCurrency = await fullModelInstruments.GetCurrencyFullModelAsync();
-            return listCurrency.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+            return listCurrency.Where(c => c != null && (c.SecName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true ||
+                                                       c.SecId?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true) ||
+                                                       c.Isin?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
         public async Task<List<SingleModelExchangeInstruments>> GetBondsBySubstringAsync()
         {
             var listBonds = await fullModelInstruments.GetBondFullModelAsync();
-            return listBonds.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+            return listBonds.Where(c => c != null && (c.SecName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true ||
+                                                       c.SecId?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true) ||
+                                                       c.Isin?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
         public async Task<List<SingleModelExchangeInstruments>> GetFundsBySubstringAsync()
         {
             var listFund = await fullModelInstruments.GetFundFullModelAsync();
-            return listFund.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+            return listFund.Where(c => c != null && (c.SecName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true ||
+                                                       c.SecId?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true) ||
+                                                       c.Isin?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true).ToList();
         }
         public async Task<List<SingleModelExchangeInstruments>> GetFuturesBySubstringAsync()
         {
             var listFutures = await fullModelInstruments.GetFuturesFullModelAsync();
-            return listFutures.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+            return listFutures.Where(c => c != null && (c.SecName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true ||
+                                                       c.SecId?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true))
+                                                       .ToList();
         }
     }
 }

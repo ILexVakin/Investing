@@ -35,6 +35,7 @@ namespace Investing.Services.MoexData
                                     ? faceValue.GetInt32() : (Int32?)null,
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
                     LATNAME = securities[i].GetProperty("LATNAME").GetString(),
+                    ISIN = securities[i].GetProperty("ISIN").GetString(),
                     PREVLEGALCLOSEPRICE = securities[i].TryGetProperty("PREVLEGALCLOSEPRICE", out var closePrice)
                     && closePrice.ValueKind != JsonValueKind.Null
                                     ? closePrice.GetDecimal() : (decimal?)null,

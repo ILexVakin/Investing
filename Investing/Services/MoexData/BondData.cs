@@ -34,6 +34,7 @@ namespace Investing.Services.MoexData
                     && faceValue.ValueKind != JsonValueKind.Null
                                     ? faceValue.GetDouble() : (double?)null,
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
+                    ISIN = securities[i].GetProperty("ISIN").GetString(),
                     LATNAME = securities[i].GetProperty("LATNAME").GetString(),
                     PREVLEGALCLOSEPRICE = securities[i].TryGetProperty("PREVLEGALCLOSEPRICE", out var closePrice)
                     && closePrice.ValueKind != JsonValueKind.Null

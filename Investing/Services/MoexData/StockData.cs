@@ -28,6 +28,7 @@ namespace Investing.Services.MoexData
                     LOTSIZE = securities[i].GetProperty("LOTSIZE").GetInt32(),
                     FACEVALUE = (float)securities[i].GetProperty("FACEVALUE").GetDouble(),
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
+                    ISIN = securities[i].GetProperty("ISIN").GetString(),
                     LATNAME = securities[i].GetProperty("LATNAME").GetString(),
                     PREVLEGALCLOSEPRICE = (float?)securities[i].GetProperty("PREVLEGALCLOSEPRICE").GetDouble()
                 };

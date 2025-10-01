@@ -1,23 +1,9 @@
 ﻿namespace Investing.Models
 {
-    public class StockMoex
+    public class Stocks
     {
-        public MainMoex[] MainMoex { get; set; }
-    }
-
-
-    public class MainMoex
-    {
-        public Charsetinfo charsetinfo { get; set; }
         public SecurityStock[] securities { get; set; }
         public MarketdataStock[] marketdata { get; set; }
-        public Dataversion[] dataversion { get; set; }
-        public object[] marketdata_yields { get; set; }
-    }
-
-    public class Charsetinfo
-    {
-        public string name { get; set; }
     }
 
     public class SecurityStock
@@ -110,12 +96,5 @@
         public string? TRADINGSESSION { get; set; }
         public float? TRENDISSUECAPITALIZATION { get; set; }
     }
-
-    public class Dataversion
-    {
-        public int data_version { get; set; }
-        public long seqnum { get; set; }
-    }
-
 }
 

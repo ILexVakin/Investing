@@ -21,13 +21,14 @@ namespace Investing.Services.MoexData
             {
                 listSecurities.Add(new CurrencySecurity
                 {
-                    SecId = securities[i].GetProperty("SECID").GetString(),
-                    ShortName = securities[i].GetProperty("SHORTNAME").GetString(),
-                    PrevPrice = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
+                    SECID = securities[i].GetProperty("SECID").GetString(),
+                    SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
+                    PREVPRICE = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
                     && prevPrice.ValueKind != JsonValueKind.Null
                                     ? prevPrice.GetDecimal()
                                     : (decimal?)null,
-                    LotSize = securities[i].GetProperty("LOTSIZE").GetInt32()
+                    LOTSIZE = securities[i].GetProperty("LOTSIZE").GetInt32(),
+                    SECNAME = securities[i].GetProperty("SECNAME").GetString(),
                 });
             }
             return listSecurities;
@@ -40,12 +41,12 @@ namespace Investing.Services.MoexData
             {
                 listMarketdata.Add(new CurrencyMarketdata
                 {
-                    SecId = marketdata[i].GetProperty("SECID").GetString(),
-                    Last = marketdata[i].TryGetProperty("LAST", out var last)
+                    SECID = marketdata[i].GetProperty("SECID").GetString(),
+                    LAST = marketdata[i].TryGetProperty("LAST", out var last)
                     && last.ValueKind != JsonValueKind.Null
                                     ? last.GetDecimal()
                                     : (decimal?)null,
-                    Open = marketdata[i].TryGetProperty("OPEN", out var open)
+                    OPEN = marketdata[i].TryGetProperty("OPEN", out var open)
                     && open.ValueKind != JsonValueKind.Null
                                     ? open.GetDecimal()
                                     : (decimal?)null
@@ -66,8 +67,8 @@ namespace Investing.Services.MoexData
             getCurrencyData.RunSynchronously();
 
             var combinedData = listSecurities.GroupJoin(listMarketdata,
-             sec => sec.SecId,
-             mar => mar.SecId,
+             sec => sec.SECID,
+             mar => mar.SECID,
              (sec, mar) => new CombinedCurrencyVM
              {
                  Security = sec,

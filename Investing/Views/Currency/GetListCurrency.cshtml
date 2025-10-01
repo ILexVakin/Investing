@@ -18,8 +18,8 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Security.ShortName</td>
-                <td>@item.Marketdata.Last</td>
+                <td>@item.Security.SHORTNAME</td>
+                <td>@item.Marketdata.LAST</td>
                 @* <td>@(item.Marketdata?.MARKETPRICE2?.ToString() ?? item.Marketdata?.LAST?.ToString() ?? item.Security?.PREVPRICE?.ToString() ?? "-")</td> *@
             </tr>
         }

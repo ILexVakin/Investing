@@ -28,7 +28,7 @@ namespace Investing.Services.MoexData
                                                 && prevPrice.ValueKind != JsonValueKind.Null
                                     ? prevPrice.GetDecimal() : (decimal?)null,
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
-                    LATNAME = securities[i].GetProperty("LATNAME").GetString(),
+                    LATNAME = securities[i].GetProperty("LATNAME").GetString()
                 };
                 listSecurities.Add(futures);
             }
