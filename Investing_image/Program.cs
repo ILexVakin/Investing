@@ -1,7 +1,10 @@
-﻿public class Program
+﻿using Investing_image;
+
+public class Program
 {
-    public Program()
+    static async Task Main()
     {
-     
+        IconInstruments iconInstruments = new IconInstruments();
+        await iconInstruments.GetIsinInstruments();
     }
 }
