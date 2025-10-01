@@ -19,19 +19,14 @@ namespace Investing.Services
         public async Task<List<SingleModelExchangeInstruments>> GetStocksBySubstringAsync()
         {
             var listStocks = await fullModelInstruments.GetStockFullModelAsync();
-            var t =  listStocks.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
-            foreach (var foundStock in t)
-            {
-                Debug.WriteLine(foundStock.ShortName);
-            }
             return listStocks.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
         }
+        public async Task<List<SingleModelExchangeInstruments>> GetBondsBySubstringAsync()
+        {
+            var listBonds = await fullModelInstruments.GetBondFullModelAsync();
+            return listBonds.Where(c => c != null && (c.ShortName?.Contains(SubstringInstrumentSearch, StringComparison.OrdinalIgnoreCase) == true)).ToList();
+        }
 
-       
-        //public async Task<SingleModelExchangeInstruments> GetPartBondsAsync(string query)
-        //{
-
-        //} 
         //public async Task<SingleModelExchangeInstruments> GetPartFundsAsync(string query)
         //{
 

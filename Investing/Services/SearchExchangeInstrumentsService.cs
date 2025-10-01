@@ -33,7 +33,8 @@ namespace Investing.Services
             searchPortion.SubstringInstrumentSearch = substring;
             var tasks = new List<Task<List<SingleModelExchangeInstruments>>>
              {
-               searchPortion.GetStocksBySubstringAsync()
+               searchPortion.GetStocksBySubstringAsync(),
+               searchPortion.GetBondsBySubstringAsync()
              };
 
             var resultAllTasks = await Task.WhenAll(tasks);
