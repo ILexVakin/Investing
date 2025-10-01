@@ -9,9 +9,7 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListCurrency()
         {
-            CurrencyData currencyData = new CurrencyData();
-            var currencyList = await currencyData.CombinedCurrencyDataAsync();
-            return View(currencyList);
+            return View(await CurrencyData.CombinedCurrencyDataAsync());
         }
     }
 }

@@ -9,9 +9,7 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListFutures()
         {
-            FuturesData futuresData = new FuturesData();
-            var futuresList = await futuresData.CombinedFuturesDataAsync();
-            return View(futuresList);
+            return View(await FuturesData.CombinedFuturesDataAsync());
         }
     }
 }

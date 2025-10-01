@@ -11,6 +11,6 @@ namespace Investing.Services.Interfaces
         Task<List<SingleModelExchangeInstruments>> GetCurrencyFullModelAsync();
         Task<List<SingleModelExchangeInstruments>> GetBondFullModelAsync();
         Task<List<SingleModelExchangeInstruments>> GetFundFullModelAsync();
-        Task<List<SingleModelExchangeInstruments>> GetFutureFullModelAsync();
+        Task<List<SingleModelExchangeInstruments>> GetFuturesFullModelAsync();
     }
 }

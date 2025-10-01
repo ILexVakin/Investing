@@ -22,11 +22,9 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListStocks()
         {
-            StockData stockData = new StockData();
             SearchImageService searchImage = new SearchImageService();
             await searchImage.DownloadImage("SBER");
-            var stockList = await stockData.CombinedStockDataAsync();
-            return View(stockList);
+            return View(await StockData.CombinedStockDataAsync());
         }
 
         //public async Task<ActionResult> Details(int id)

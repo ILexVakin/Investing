@@ -4,9 +4,9 @@ namespace Investing.Models
 {
     public class SingleModelExchangeInstruments
     {  
-        public string Tiker { get; set; }
-        public string Name { get; set; }
-        public string ShortName { get; set; }
+        public string? Tiker { get; set; }
+        public string? Name { get; set; }
+        public string? ShortName { get; set; }
 
         // тип инструмента (акции, облигации и тд)
         public TypeInstrument TypeInstrument {  get; set; }

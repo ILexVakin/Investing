@@ -11,12 +11,10 @@ namespace Investing.Services.MoexData
 {
     public class FullModelInstrumentsMoex : IFullModelInstrumentsMoex
     {
-        CurrencyData currencyData = new CurrencyData();
-        StockData stockData = new StockData();
         public async Task<List<SingleModelExchangeInstruments>> GetStockFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listStocks = await stockData.CombinedStockDataAsync();
+            var listStocks = await StockData.CombinedStockDataAsync();
             foreach (var foundStock in listStocks)
             {
                 var stock = new SingleModelExchangeInstruments()
@@ -32,7 +30,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetCurrencyFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listCurrency = await currencyData.CombinedCurrencyDataAsync();
+            var listCurrency = await CurrencyData.CombinedCurrencyDataAsync();
 
             foreach (var foundCurrency in listCurrency)
             {
@@ -66,21 +64,33 @@ namespace Investing.Services.MoexData
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
             var listFund = await FundData.CombinedFundDataAsync();
-            foreach (var fundBond in listFund)
+            foreach (var fondFund in listFund)
             {
                 var bond = new SingleModelExchangeInstruments()
                 {
-                    ShortName = fundBond.Security.SHORTNAME,
-                    PriceChange = fundBond.Marketdata.MARKETPRICE,
-                    TypeInstrument = TypeInstrument.Bond
+                    ShortName = fondFund.Security.SHORTNAME,
+                    PriceChange = fondFund.Marketdata.MARKETPRICE,
+                    TypeInstrument = TypeInstrument.Fund
                 };
                 listInstruments.Add(bond);
             }
             return listInstruments;
         }
-        public async Task<List<SingleModelExchangeInstruments>> GetFutureFullModelAsync()
+        public async Task<List<SingleModelExchangeInstruments>> GetFuturesFullModelAsync()
         {
-            return new List<SingleModelExchangeInstruments> { new SingleModelExchangeInstruments() { } };
+            List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
+            var listFutures = await FuturesData.CombinedFuturesDataAsync();
+            foreach (var fundBond in listFutures)
+            {
+                var bond = new SingleModelExchangeInstruments()
+                {
+                    //ShortName = fundBond.Security.SHORTNAME,
+                    //PriceChange = fundBond.Marketdata.MARKETPRICE,
+                    TypeInstrument = TypeInstrument.Futures
+                };
+                listInstruments.Add(bond);
+            }
+            return listInstruments;
         }
         public enum TypeInstrument
         {
