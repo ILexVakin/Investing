@@ -19,7 +19,8 @@ namespace Investing.Services
              {
                 fullModelInstruments.GetStockFullModelAsync(),
                 fullModelInstruments.GetCurrencyFullModelAsync(),
-                fullModelInstruments.GetBondFullModelAsync()
+                fullModelInstruments.GetBondFullModelAsync(),
+                fullModelInstruments.GetFundFullModelAsync()
              };
 
             var resultAllTasks = await Task.WhenAll(tasks);

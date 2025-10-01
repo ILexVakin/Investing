@@ -13,7 +13,6 @@ namespace Investing.Services.MoexData
     {
         CurrencyData currencyData = new CurrencyData();
         StockData stockData = new StockData();
-        BondData bondData = new BondData();
         public async Task<List<SingleModelExchangeInstruments>> GetStockFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
@@ -50,7 +49,7 @@ namespace Investing.Services.MoexData
         public async Task<List<SingleModelExchangeInstruments>> GetBondFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
-            var listBond = await bondData.CombinedBondDataAsync();
+            var listBond = await BondData.CombinedBondDataAsync();
             foreach (var foundBond in listBond)
             {
                 var bond = new SingleModelExchangeInstruments()
@@ -65,7 +64,19 @@ namespace Investing.Services.MoexData
         }
         public async Task<List<SingleModelExchangeInstruments>> GetFundFullModelAsync()
         {
-            return new List<SingleModelExchangeInstruments> { new SingleModelExchangeInstruments() { } };
+            List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
+            var listFund = await FundData.CombinedFundDataAsync();
+            foreach (var fundBond in listFund)
+            {
+                var bond = new SingleModelExchangeInstruments()
+                {
+                    ShortName = fundBond.Security.SHORTNAME,
+                    PriceChange = fundBond.Marketdata.MARKETPRICE,
+                    TypeInstrument = TypeInstrument.Bond
+                };
+                listInstruments.Add(bond);
+            }
+            return listInstruments;
         }
         public async Task<List<SingleModelExchangeInstruments>> GetFutureFullModelAsync()
         {
@@ -80,7 +91,11 @@ namespace Investing.Services.MoexData
             [Description("Валюта")]
             Currency,
             [Description("Облигации")]
-            Bond
+            Bond,
+            [Description("Фонды")]
+            Fund,
+            [Description("Фьючерсы")]
+            Futures
         }
     }
 }

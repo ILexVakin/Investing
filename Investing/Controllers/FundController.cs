@@ -9,9 +9,7 @@ namespace Investing.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListFunds()
         {
-            FundData fundData = new FundData();
-            var fundList = await fundData.CombinedFundDataAsync();
-            return View(fundList);
+            return View(await FundData.CombinedFundDataAsync());
         }
     }
 }

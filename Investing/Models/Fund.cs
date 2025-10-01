@@ -65,7 +65,7 @@ namespace Investing.Models
         public float WAPTOPREVWAPRICE { get; set; }
         public object CLOSEPRICE { get; set; }
         public object MARKETPRICETODAY { get; set; }
-        public float? MARKETPRICE { get; set; }
+        public decimal? MARKETPRICE { get; set; }
         public decimal? LASTTOPREVPRICE { get; set; }
         public int NUMTRADES { get; set; }
         public long VOLTODAY { get; set; }
