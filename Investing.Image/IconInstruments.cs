@@ -1,7 +1,7 @@
 ﻿using Investing.Services;
 using Investing.Services.Interfaces;
 using System.Diagnostics;
-namespace Investing_image
+namespace Investing.Image
 {
     internal class IconInstruments
     {

@@ -10,5 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Investing\Investing.csproj" />
   </ItemGroup>
-
 </Project>

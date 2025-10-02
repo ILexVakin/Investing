@@ -1,4 +1,4 @@
-﻿using Investing_image;
+﻿using Investing.Image;
 
 public class Program
 {
