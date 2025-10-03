@@ -1,4 +1,5 @@
 ﻿using Investing.Models;
+using Investing.Models.Redis;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -14,6 +15,8 @@ namespace Investing.Data
         public DbSet<User> User { get; set; } = null!;
         public DbSet<Credentials>? Credentials { get; set; } = null!;
         public DbSet<StockMoexUnion> StockMoexUnion { get; set; } = null!;
+        public DbSet<OriginalRedis> OriginalRedis { get; set; } = null!;
+        public DbSet<DuplicateRedis> DuplicateRedis { get; set; } = null!;
 
     }
 }

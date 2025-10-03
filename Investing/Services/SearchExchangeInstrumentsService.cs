@@ -1,4 +1,5 @@
-﻿using Investing.Models;
+﻿using Investing.Data;
+using Investing.Models;
 using Investing.Services.Interfaces;
 using Investing.Services.MoexData;
 using System;
@@ -11,7 +12,7 @@ namespace Investing.Services
     public class SearchExchangeInstrumentsService : ISearchExchangeInstrumentsService
     {
         private readonly IFullModelInstrumentsMoex fullModelInstruments = new FullModelInstrumentsMoex();
-
+        //IconCompany iconCompany = new IconCompany();
         SearchPortionExchangeInstrumentsService searchPortion = new SearchPortionExchangeInstrumentsService();
         public async Task<List<SingleModelExchangeInstruments>> SearchAllExchangeInstrumentsAsync()
         {
@@ -25,6 +26,7 @@ namespace Investing.Services
              };
 
             var resultAllTasks = await Task.WhenAll(tasks);
+            //var isOverList = iconCompany.CombineInstrumentsWithIcon(resultAllTasks.SelectMany(x => x).ToList());
             return resultAllTasks.SelectMany(x => x).ToList();
         }
 
@@ -39,9 +41,51 @@ namespace Investing.Services
                searchPortion.GetFundsBySubstringAsync(),
                searchPortion.GetFuturesBySubstringAsync()
              };
-
+            
             var resultAllTasks = await Task.WhenAll(tasks);
             return resultAllTasks.SelectMany(x => x).ToList();
         }
+
+        //будет один метод, содержащий в себе как минимум 2 других. 
+        //1) Получить изображения из redis
+        //2) Получить данные которые дублируются (оригинал и его дубль isin) Dictionary<string, string> iconWhichRepeated = new Dictionary<string, string>();
+    }
+    public class IconCompany
+    {
+        private readonly MainContext _context;
+        public IconCompany(MainContext context)
+        {
+            _context = context;
+        }
+        public async Task<SingleModelExchangeInstruments> CombineInstrumentsWithIcon(List<SingleModelExchangeInstruments> listInstruments)
+        {
+            return new SingleModelExchangeInstruments();
+        }
+
+        public async Task<Dictionary<string, byte[]>> GetAllImage()
+        {
+            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
+            var tasks = new List<Task<Dictionary<string, byte[]>>>
+            {
+                GetIconFromRedis(),
+                GetIconFromPg()
+            };
+
+            var resultAllTasks = await Task.WhenAll(tasks);
+
+            return (Dictionary<string, byte[]>)resultAllTasks.SelectMany(x => x);
+        }
+        public async Task<Dictionary<string, byte[]>> GetIconFromRedis()
+        {
+            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
+            return keyValuePairs;
+        }
+        public async Task<Dictionary<string, byte[]>> GetIconFromPg()
+        {
+            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
+            var allDuplicateIcon =  _context.DuplicateRedis.ToList();
+            return keyValuePairs;
+        }
+
     }
 }

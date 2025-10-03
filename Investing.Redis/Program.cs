@@ -18,6 +18,3 @@ var host = Host.CreateDefaultBuilder(args)
 
     })
     .Build();
-ReadingIcon readingIcon = new ReadingIcon();
-
-var k = readingIcon.GetAllIconsCampany();
