@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.9.25" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Investing\Investing.csproj" />
   </ItemGroup>
 </Project>

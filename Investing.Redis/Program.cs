@@ -14,7 +14,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddScoped<IDatabase>(sp =>
                          sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
-        services.AddScoped<IMainOperationRedis<string>,IconCompany>();
+        services.AddScoped<IMainOperationRedis<string>,IconCompanyes>();
 
     })
     .Build();

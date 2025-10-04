@@ -1,4 +1,5 @@
-﻿using Investing.Services.Interfaces;
+﻿using Investing.Redis;
+using Investing.Services.Interfaces;
 using Investing.Services.MoexData;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ namespace Investing.Services
             services.AddScoped<ReadingMoexData>();
             services.AddScoped<ISearchExchangeInstrumentsService, SearchExchangeInstrumentsService>();
             services.AddScoped<IFullModelInstrumentsMoex, FullModelInstrumentsMoex>();
+            services.AddScoped<IMainOperationRedis<string>, MainOperationRedis>();
             return services;
         }
     }

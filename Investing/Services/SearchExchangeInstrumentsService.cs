@@ -26,7 +26,6 @@ namespace Investing.Services
              };
 
             var resultAllTasks = await Task.WhenAll(tasks);
-            //var isOverList = iconCompany.CombineInstrumentsWithIcon(resultAllTasks.SelectMany(x => x).ToList());
             return resultAllTasks.SelectMany(x => x).ToList();
         }
 
@@ -52,6 +51,7 @@ namespace Investing.Services
     }
     public class IconCompany
     {
+        string[] isin = new string[] { "dsfs" };
         private readonly MainContext _context;
         public IconCompany(MainContext context)
         {
@@ -67,20 +67,20 @@ namespace Investing.Services
             Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
             var tasks = new List<Task<Dictionary<string, byte[]>>>
             {
-                GetIconFromRedis(),
-                GetIconFromPg()
+                GetIconFromRedis(isin),
+                GetIconFromPg(isin)
             };
 
             var resultAllTasks = await Task.WhenAll(tasks);
 
             return (Dictionary<string, byte[]>)resultAllTasks.SelectMany(x => x);
         }
-        public async Task<Dictionary<string, byte[]>> GetIconFromRedis()
+        public async Task<Dictionary<string, byte[]>> GetIconFromRedis(string[] isin)
         {
             Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
             return keyValuePairs;
         }
-        public async Task<Dictionary<string, byte[]>> GetIconFromPg()
+        public async Task<Dictionary<string, byte[]>> GetIconFromPg(string[] isin)
         {
             Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
             var allDuplicateIcon =  _context.DuplicateRedis.ToList();

@@ -3,9 +3,11 @@ using Investing.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using StackExchange.Redis;
 using System;
 
 namespace Investing
@@ -28,11 +30,16 @@ namespace Investing
 
             Log.Logger = Logger.BaseLogger();
             services.AddLogging(c => c.AddSerilog()) ;
-
+            services.AddMediatR(cfg =>
+             cfg.RegisterServicesFromAssembly(typeof(Startup).Assembly));
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
             services.AddHttpClient();
             services.AddRegistrationServices();
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+                                             ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")));
+            services.AddScoped<StackExchange.Redis.IDatabase>(sp =>
+                             sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

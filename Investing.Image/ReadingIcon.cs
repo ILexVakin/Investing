@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+
 
 namespace Investing.Image
 {
-    internal class ReadingIcon
+    public class ReadingIcon
     {
+        Data.Redis redis = new Data.Redis();
         public async Task<Dictionary<string, byte[]>> GetAllIconsCampany()
         {
             var listIconsComany = await ReadImageFromFileArray();
-            var listUniqueIcons = await FindUniqueIcons(listIconsComany);
-            return listUniqueIcons;
+            var redisIcons = await FindUniqueIcons(listIconsComany);
+            var postgreIcons =  await GetIconsToRedis(listIconsComany, redisIcons);
+            return listIconsComany;
         }
 
         public async Task<Dictionary<string, byte[]>> ReadImageFromFileArray()
@@ -33,20 +30,32 @@ namespace Investing.Image
 
         }
 
-        public async Task<Dictionary<string, byte[]>> FindDublicateIcons(Dictionary<string, byte[]> dictionaryAllIcons)
+        public async Task<Dictionary<string, byte[]>> GetIconsToRedis(Dictionary<string, byte[]> dictionaryAllIcons, Dictionary<string, byte[]> redisIcons)
         {
             Dictionary<string, byte[]> listUniqueIcons = new Dictionary<string, byte[]>();
             try
             {
+                //данные, которые есть в редис нам сейчас не нужны
+                var dictionaryWithoutRedis = dictionaryAllIcons.Except(redisIcons).ToArray();
+
                 //нашли первые элементы, дальше их буду джойнить с теми исинами, которые не вошли в спиосок, тк они имеют такие же иконки
-                var dublicatePhotoIsin = dictionaryAllIcons.GroupBy(x => Convert.ToBase64String(x.Value))
-               .Where(g => g.Count() > 1)
-               .SelectMany(g => g.Select(x => x.Value))
-               .GroupBy(arr => Convert.ToBase64String(arr))
-               .Select(g => g.First());
+                // данная коллекция так же пойдет в редис
+                 var duplicateRedisIsin = dictionaryWithoutRedis.GroupBy(x => Convert.ToBase64String(x.Value))
+                                                                .Where(g => g.Count() > 1)
+                                                                .SelectMany(g => g)
+                                                                .GroupBy(x => Convert.ToBase64String(x.Value))
+                                                                .Select(g => g.First()); //425
 
+                //итоговая коллекция, которая объединит первые элементы дубликата и те что уникальны - идут в редис
+                var unionRedisDictionary = redisIcons.Union(duplicateRedisIsin).ToDictionary(c => c.Key, c=> c.Value);
 
+                await redis.InsertIconsInRedis(unionRedisDictionary);
+                //коллекция, которая пойдет в 2 модели постгреса (Оригинал и дубликат)
 
+                //var rt = dublicateRedisIsin.GroupBy(arr => Convert.ToBase64String(arr))
+                //                            .Where(c => c.Count() > 1)
+                //                            .SelectMany(c => c)
+                //                            .ToDictionary(c => c.k);
             }
             catch (Exception ex)
             {
@@ -58,25 +67,19 @@ namespace Investing.Image
 
         public async Task<Dictionary<string, byte[]>> FindUniqueIcons(Dictionary<string, byte[]> dictionaryAllIcons)
         {
-            Dictionary<string, byte[]> listUniqueIcons = new Dictionary<string, byte[]>();
             try
             {
-                //нашли оригинальные по байтам изображения
-                var originalPhotoIsin = dictionaryAllIcons.GroupBy(x => Convert.ToBase64String(x.Value))
-                    .Where(g => g.Count() == 1)
-                    .SelectMany(g => g.Select(x => x.Key)); //530
-
-                listUniqueIcons = (Dictionary<string, byte[]>)(from x in dictionaryAllIcons
-                                                               where x.Key == originalPhotoIsin.ElementAt(0)
-                                                               select x);
-
+             return  dictionaryAllIcons
+                    .GroupBy(с => Convert.ToBase64String(с.Value))
+                    .Where(с => с.Count() == 1)
+                    .SelectMany(g => g)
+                    .ToDictionary(с => с.Key, с => с.Value);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                return new Dictionary<string, byte[]>();
             }
-
-            return listUniqueIcons;
         }
     }
 }
