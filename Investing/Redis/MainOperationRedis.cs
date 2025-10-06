@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using System;
 using StackExchange.Redis;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Investing.Redis
 {
-    public class MainOperationRedis : IMainOperationRedis<string>
+    public class MainOperationRedis : IMainOperationRedis
     {
         private readonly IDatabase _db;
         public MainOperationRedis(IDatabase db)
@@ -13,23 +15,23 @@ namespace Investing.Redis
             _db = db;
         }
 
-        async Task IMainOperationRedis<string>.AddElementRedis(string key, string value, TimeSpan? expiry)
+        async Task IMainOperationRedis.AddElementRedis(string key, string value, TimeSpan? expiry)
         {
             var element = TransformationData.Serialize(value);
             await _db.StringSetAsync(key, element, expiry);
         }
 
-        async Task<string> IMainOperationRedis<string>.GetElementRedis(string key)
+        async Task<byte[]> IMainOperationRedis.GetElementRedis(string key)
         {
             var element = await _db.StringGetAsync(key);
             if (element.IsNullOrEmpty)
             {
-                return string.Empty;
+                return null;
             }
-            return TransformationData.Deserialize<string>(element);
+            return TransformationData.Deserialize<byte[]>(element);
         }
 
-        async Task<bool> IMainOperationRedis<string>.RemoveElementKeyRedis(string key)
+    async Task<bool> IMainOperationRedis.RemoveElementKeyRedis(string key)
         {
             return await _db.KeyDeleteAsync(key);
         }

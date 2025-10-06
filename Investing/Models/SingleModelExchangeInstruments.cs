@@ -12,6 +12,6 @@ namespace Investing.Models
         // тип инструмента (акции, облигации и тд)
         public TypeInstrument TypeInstrument {  get; set; }
         public decimal? PriceChange {  get; set; }
-        public string? ImageUrl { get; set; } = string.Empty;
+        public byte[]? ImageIcon { get; set; }
     }
 }

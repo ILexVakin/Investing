@@ -1,4 +1,5 @@
-﻿using Investing.Models;
+﻿using Investing.Data;
+using Investing.Models;
 using Investing.Services.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,11 +12,14 @@ namespace Investing.Services.MoexData
 {
     public class FullModelInstrumentsMoex : IFullModelInstrumentsMoex
     {
+
+        IIconCompany iconCompany = new IconCompany(); 
         StockData stockData = new StockData();
         CurrencyData currencyData = new CurrencyData();
         BondData bondData = new BondData();
         FundData  fundData = new FundData();
         FuturesData futuresData = new FuturesData();
+
         public async Task<List<SingleModelExchangeInstruments>> GetStockFullModelAsync()
         {
             List<SingleModelExchangeInstruments> listInstruments = new List<SingleModelExchangeInstruments>();
@@ -28,7 +32,8 @@ namespace Investing.Services.MoexData
                     SecId = foundStock.Security.SECID,
                     Isin = foundStock.Security.ISIN,
                     PriceChange = foundStock.Marketdata.MARKETPRICE,
-                    TypeInstrument = TypeInstrument.Stock
+                    TypeInstrument = TypeInstrument.Stock,
+                    //ImageIcon = await iconCompany.GetIconCompany(foundStock.Security.ISIN) реализовать таким образом, чтоб данные шли из lazy
                 };
                 listInstruments.Add(stock);
             }

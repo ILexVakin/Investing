@@ -1,4 +1,4 @@
-﻿@model List<Investing.Models.ViewModels.CombinedStocsVM> 
+﻿@model List<Investing.Models.Stocks> 
 
 @{
     ViewData["Title"] = "Акции Московской биржи";
@@ -58,7 +58,7 @@
     <tbody>
          @foreach (var stock in Model)
         {
-            <tr style="@(stock.Marketdata?.TRADINGSTATUS == "N" ? "background-color: grey" : "background-color: white;")" onclick="window.location.href='@Url.Action("Details", "Companies", new { id = stock.Security.SECID })'; return false">
+            <tr style="@(stock.Marketdata?.TRADINGSTATUS == "N" ? "background-color: grey" : "background-color: white;")" onclick="window.location.href='@Url.Action("DetailStock", "Stock", new { secId = stock.Security.SECID })'; return false">
                 <td>
                     <div class="company-info">
                         <img src="https://img.logo.dev/sberbank.ru" alt="T-Технологии" class="company-logo">

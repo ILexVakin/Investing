@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using StackExchange.Redis;
 using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Investing
 {

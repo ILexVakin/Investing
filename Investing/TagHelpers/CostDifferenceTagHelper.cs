@@ -1,4 +1,5 @@
-﻿using Investing.Models.ViewModels;
+﻿using Investing.Models;
+using Investing.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -15,7 +16,7 @@ namespace Investing.TagHelpers
     {
 
         [HtmlAttributeName("item")]
-        public CombinedStocsVM? Stock { get; set; }
+        public Stocks? Stock { get; set; }
 
         [ViewContext]
         [HtmlAttributeNotBound]

@@ -11,6 +11,7 @@ namespace Investing.Services.MoexData
 {
     public class StockData
     {
+        List<Stocks> stocks = new List<Stocks>();   
         List<SecurityStock> listSecurities = new List<SecurityStock>();
         List<MarketdataStock> listMarketdata = new List<MarketdataStock>();
         IReadingMoexData moexData = new ReadingMoexData();
@@ -67,7 +68,7 @@ namespace Investing.Services.MoexData
             return listMarketdata;
         }
 
-        public async Task<List<CombinedStocsVM>> CombinedStockDataAsync()
+        public async Task<List<Stocks>> CombinedStockDataAsync()
         {
             var listDataStocks = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.json=extended&limit=100");
 
@@ -82,7 +83,7 @@ namespace Investing.Services.MoexData
             var combinedData = listSecurities.GroupJoin(listMarketdata,
               sec => sec.SECID,
               mar => mar.SECID,
-              (sec, mar) => new CombinedStocsVM
+              (sec, mar) => new Stocks
               { 
                   Security = sec,
                   Marketdata = mar.FirstOrDefault()
@@ -91,6 +92,31 @@ namespace Investing.Services.MoexData
 
 
             return combinedData;
+        }
+
+        public async Task<Stocks> CombinedStockDataNewAsync(string endPointMoex)
+        {
+            var listDataStocks = await moexData.GetAllRowsByExchange(endPointMoex);
+
+            Task getStocksData = new Task(() =>
+            {
+                listSecurities = GetStockSecuritiesData(listDataStocks);
+                listMarketdata = GetStockMarketdata(listDataStocks);
+            });
+            getStocksData.RunSynchronously();
+
+
+            var combinedData = listSecurities.Join(listMarketdata,
+              sec => sec.SECID,
+              mar => mar.SECID,
+              (sec, mar) => new Stocks
+              {
+                  Security = sec,
+                  Marketdata = mar
+              });
+
+
+            return combinedData.FirstOrDefault();
         }
     }
 }

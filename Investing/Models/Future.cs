@@ -13,26 +13,43 @@ namespace Investing.Models
         public string BOARDID { get; set; }
         public string SHORTNAME { get; set; }
         public string SECNAME { get; set; }
+
+        //1
         public float PREVSETTLEPRICE { get; set; }
         public int DECIMALS { get; set; }
         public float MINSTEP { get; set; }
+        //2
         public string LASTTRADEDATE { get; set; }
+        //3
         public string LASTDELDATE { get; set; }
         public string SECTYPE { get; set; }
         public string LATNAME { get; set; }
+        //4
         public string ASSETCODE { get; set; }
+        //5
         public int? PREVOPENPOSITION { get; set; }
+        //6
         public int LOTVOLUME { get; set; }
+        //7
         public float INITIALMARGIN { get; set; }
+        //8
         public float HIGHLIMIT { get; set; }
+        //9
         public float LOWLIMIT { get; set; }
+        //9
         public float STEPPRICE { get; set; }
+        //9
         public float LASTSETTLEPRICE { get; set; }
         public decimal? PREVPRICE { get; set; }
+        //9
         public string IMTIME { get; set; }
+        //9
         public float BUYSELLFEE { get; set; }
+        //9
         public float SCALPERFEE { get; set; }
+        //9
         public float NEGOTIATEDFEE { get; set; }
+        //9
         public float EXERCISEFEE { get; set; }
     }
 
@@ -74,6 +91,9 @@ namespace Investing.Models
         public float OPENPERIODPRICE { get; set; }
         public float SWAPRATE { get; set; }
         public string TRADE_SESSION_DATE { get; set; }
+
+
+
     }
 
 }

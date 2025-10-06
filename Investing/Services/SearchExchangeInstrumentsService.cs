@@ -49,43 +49,4 @@ namespace Investing.Services
         //1) Получить изображения из redis
         //2) Получить данные которые дублируются (оригинал и его дубль isin) Dictionary<string, string> iconWhichRepeated = new Dictionary<string, string>();
     }
-    public class IconCompany
-    {
-        string[] isin = new string[] { "dsfs" };
-        private readonly MainContext _context;
-        public IconCompany(MainContext context)
-        {
-            _context = context;
-        }
-        public async Task<SingleModelExchangeInstruments> CombineInstrumentsWithIcon(List<SingleModelExchangeInstruments> listInstruments)
-        {
-            return new SingleModelExchangeInstruments();
-        }
-
-        public async Task<Dictionary<string, byte[]>> GetAllImage()
-        {
-            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
-            var tasks = new List<Task<Dictionary<string, byte[]>>>
-            {
-                GetIconFromRedis(isin),
-                GetIconFromPg(isin)
-            };
-
-            var resultAllTasks = await Task.WhenAll(tasks);
-
-            return (Dictionary<string, byte[]>)resultAllTasks.SelectMany(x => x);
-        }
-        public async Task<Dictionary<string, byte[]>> GetIconFromRedis(string[] isin)
-        {
-            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
-            return keyValuePairs;
-        }
-        public async Task<Dictionary<string, byte[]>> GetIconFromPg(string[] isin)
-        {
-            Dictionary<string, byte[]> keyValuePairs = new Dictionary<string, byte[]>();
-            var allDuplicateIcon =  _context.DuplicateRedis.ToList();
-            return keyValuePairs;
-        }
-
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace Investing.Redis.Services
 {
@@ -9,7 +10,7 @@ namespace Investing.Redis.Services
             return JsonConvert.SerializeObject(obj);
         }
 
-        public static T Deserialize<T>(string json)
+        public static T Deserialize<T>(RedisValue json)
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
