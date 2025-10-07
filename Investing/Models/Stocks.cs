@@ -75,7 +75,7 @@ namespace Investing.Models
         public float? PREVWAPRICE { get; set; }
         public string FACEUNIT { get; set; }
         public string PREVDATE { get; set; }
-        public long ISSUESIZE { get; set; }
+        public double ISSUESIZE { get; set; }
         public string ISIN { get; set; }
         public string REGNUMBER { get; set; }
         public float? PREVLEGALCLOSEPRICE { get; set; }

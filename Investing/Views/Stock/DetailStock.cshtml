@@ -1,15 +1,95 @@
 ﻿@model Investing.Models.Stocks
 <div class="main_board">
-    <div class="section-first">
-    <div class="section-close-page">
-        <a class="button-close-page"></a>
+    <div class="main-section">
+        <div class="section">
+            <div class="logo-name-main">
+        <div class="section-close-page">
+            <a class="button-close-page"></a>
+        </div>
+        <div class="logo-company">
+            <img />
+        </div>
+        <div class="name-company">
+            <h2>@Model.Security.SHORTNAME</h2>
+                </div>
+            </div>
+     </div>
+    <div class="section">
+        <div class="price-now">
+            <div class="info-price">
+                <p>Цена</p>
+                <h6> @Model.Marketdata.OFFER</h6>
+            </div>
+         </div>
+         <div class="type-instrument">
+                <p>Акция</p>
+         </div>
+            <div class="lot-size">
+                <p>Лот = @Model.Security.LOTSIZE шт.</p>
+            </div>
+         <div class="sec-id-company">
+                <p>@Model.Security.SECID</p>
+         </div>
+         <div class="change-price">
+             <div class="select-price">
+                 <p>Изменение за день</p>
+                 <h6>+23Р</h6>
+             </div>
+             @* Здесь должна будет размещаться разница стоимости закрытия и текущая*@
+         </div>
     </div>
-    <div class="logo-company">
-        <img />
-    </div>
-    <div class="name-company">
-        <h2>@Model.Security.SECNAME</h2>
-    </div>
+            <div class="section">
+            <div class ="diagram-instruments">
+            <div class="diagram-chart-section">
+                <canvas id="chart-instruments" width="800" height="300"></canvas>
+                @* Здесь нужно будет разместить диаграмму Chart.js со свечами роста-падения *@
+            </div>
+                <div class="date-diagram">
+                @* Здесь будет размещение дат отображение (сортировка) по 1д, 1н, 1м и тд *@
+                <div class="section-btn-date-diagram">
+                    <a class="btn-date-diagram" href="#">1 д</a>
+                    <a class="btn-date-diagram" href="#">1 н</a>
+                    <a class="btn-date-diagram" href="#">1 м</a>
+                    <a class="btn-date-diagram" href="#">3 м</a>
+                    <a class="btn-date-diagram" href="#">6 м</a>
+                    <a class="btn-date-diagram" href="#">1 г</a>
+                   </div> 
+                </div>
+            </div>
+            </div>
+            <div class="section">
+                <div class="glass-trading">
+                    @* стакан со спросом и предложением *@
+                </div>
+                <div class="btn-instrument">
+                    <div class="btn-buy-instrument">
+                    <button class="btn-buy">Купить</button>
+                    </div>
+                    <div class="btn-sell-instrument">
+                    <button class="btn-sell">Продать</button>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+            <div class="statistics-today-section">
+                <div class="statistics-today-name">
+                    <h2>Ключевая статистика за сегодня</h2>
+                </div>
+                <div class="statistics-today-details">
+                    <div class="left-statistics-today">
+                        <p>Цена закрытия:  @Model.Security.PREVLEGALCLOSEPRICE</p>
+                        <p>Цена закрытия:  @Model.Marketdata.OPEN</p>
+                        <p>Количество акций в обращении:  @Model.Security.ISSUESIZE</p>
+                    </div>
+                    <div class="right-statistics-today">
+                        <p>Минимальная цена:  @Model.Marketdata.LOW</p>
+                        <p>Максимальная цена:  @Model.Marketdata.HIGH</p>
+                        <p>Количество сделок за сегодня:  @Model.Marketdata.NUMTRADES</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+    
     </div>
 </div>
 <style>
@@ -23,5 +103,57 @@
         background: none;
         transition: all 0.3s ease;
         overflow: hidden;
+    }
+
+    .section{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
+    .btn-instrument{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
+    .statistics-today-details{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+    .logo-name-main{
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 48%;
+    }
+
+    .btn-date-diagram{
+        width:20px;
+        height: 20px;
+    }
+
+    .left-statistics-today{
+        margin-right:30px;
+    }
+
+    .btn-buy{
+        width:100px;
+        height:40px;
+        background:blue;
+        color:white;
+        border-radius: 15%;
+        margin: 20px;
+    }
+
+    .btn-sell {
+        width: 100px;
+        height: 40px;
+        background: black;
+        color: white;
+        border-radius: 15%;
+        margin:20px;
     }
 </style>

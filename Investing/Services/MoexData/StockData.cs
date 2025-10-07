@@ -31,7 +31,8 @@ namespace Investing.Services.MoexData
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
                     ISIN = securities[i].GetProperty("ISIN").GetString(),
                     LATNAME = securities[i].GetProperty("LATNAME").GetString(),
-                    PREVLEGALCLOSEPRICE = (float?)securities[i].GetProperty("PREVLEGALCLOSEPRICE").GetDouble()
+                    PREVLEGALCLOSEPRICE = securities[i].GetProperty("PREVLEGALCLOSEPRICE").GetSingle(),
+                    ISSUESIZE = securities[i].GetProperty("ISSUESIZE").GetDouble(),
                 };
                 listSecurities.Add(stock);
             }
@@ -48,19 +49,29 @@ namespace Investing.Services.MoexData
                     SECID = marketdata[i].GetProperty("SECID").GetString(),
                     BOARDID = marketdata[i].TryGetProperty("BOARDID", out var boardId)
                                     && boardId.ValueKind != JsonValueKind.Null
-                                    ? boardId.GetString()
-                                    : null,
+                                    ? boardId.GetString(): null,
                     MARKETPRICE2 = marketdata[i].TryGetProperty("MARKETPRICE2", out var marketPrice)
                                     && marketPrice.ValueKind != JsonValueKind.Null
-                                    ? marketPrice.GetDecimal()
-                                    : (decimal?)null,
+                                    ? marketPrice.GetDecimal(): null,
                     TRADINGSTATUS = marketdata[i].GetProperty("TRADINGSTATUS").GetString(),
                     LASTTOPREVPRICE = marketdata[i].TryGetProperty("LASTTOPREVPRICE", out var lastTopPrevPrice)
                                     && lastTopPrevPrice.ValueKind != JsonValueKind.Null
-                                    ? lastTopPrevPrice.GetDecimal()
-                                    : (decimal?)null,
-                    //SHORTNAME = marketdata[i].GetProperty("SHORTNAME").GetString(),
-                    //PREVPRICE = (float?)marketdata[i].GetProperty("PREVPRICE").GetDouble()
+                                    ? lastTopPrevPrice.GetDecimal(): null,
+                    OFFER = marketdata[i].TryGetProperty("OFFER", out var offer)
+                                    && offer.ValueKind != JsonValueKind.Null
+                                    ? offer.GetSingle() : null,
+                    OPEN = marketdata[i].TryGetProperty("OPEN", out var open)
+                                    && open.ValueKind != JsonValueKind.Null
+                                    ? open.GetSingle() : null,
+                    LOW = marketdata[i].TryGetProperty("LOW", out var low)
+                                    && low.ValueKind != JsonValueKind.Null
+                                    ? low.GetSingle() : null,
+                    HIGH = marketdata[i].TryGetProperty("HIGH", out var high)
+                                    && high.ValueKind != JsonValueKind.Null
+                                    ? high.GetSingle() : null,
+                    NUMTRADES = marketdata[i].TryGetProperty("NUMTRADES", out var numtrades)
+                                    && lastTopPrevPrice.ValueKind != JsonValueKind.Null
+                                    ? numtrades.GetInt64() : null
                 };
                 listMarketdata.Add(stock);
             }
