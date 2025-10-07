@@ -1,4 +1,6 @@
 ﻿@model Investing.Models.Stocks
+<link rel="stylesheet" href="~/css/detail_stock.css" />
+<script src="~/js/detail_stock.js"></script>
 <div class="main_board">
     <div class="main-section">
         <div class="section">
@@ -18,7 +20,7 @@
         <div class="price-now">
             <div class="info-price">
                 <p>Цена</p>
-                <h6> @Model.Marketdata.OFFER</h6>
+                <h4> @Model.Marketdata.OFFER</h4>
             </div>
          </div>
          <div class="type-instrument">
@@ -33,7 +35,10 @@
          <div class="change-price">
              <div class="select-price">
                  <p>Изменение за день</p>
-                 <h6>+23Р</h6>
+                    <div class="change-price-num-persent">
+                        <h6 class="change-price-num" id="change-price-num"></h6>
+                        <h6 id="change-price-persent"></h6>
+                    </div>
              </div>
              @* Здесь должна будет размещаться разница стоимости закрытия и текущая*@
          </div>
@@ -92,68 +97,6 @@
     
     </div>
 </div>
-<style>
-    a.button-close-page{
-        width: 65px;
-        height: 65px;
-        border: none;
-        border-radius: 50%;
-        padding: 0;
-        cursor: pointer;
-        background: none;
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-
-    .section{
-        display: flex;
-        justify-content: space-between;
-        margin: 20px;
-    }
-
-    .btn-instrument{
-        display: flex;
-        justify-content: space-between;
-        margin: 20px;
-    }
-
-    .statistics-today-details{
-        display: flex;
-        justify-content: space-between;
-        margin: 20px;
-    }
-    .logo-name-main{
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 48%;
-    }
-
-    .btn-date-diagram{
-        width:20px;
-        height: 20px;
-    }
-
-    .left-statistics-today{
-        margin-right:30px;
-    }
-
-    .btn-buy{
-        width:100px;
-        height:40px;
-        background:blue;
-        color:white;
-        border-radius: 15%;
-        margin: 20px;
-    }
-
-    .btn-sell {
-        width: 100px;
-        height: 40px;
-        background: black;
-        color: white;
-        border-radius: 15%;
-        margin:20px;
-    }
-</style>
+<script>
+    var allInstruments = @Html.Raw(Json.Serialize(Model));
+</script>

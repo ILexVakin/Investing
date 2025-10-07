@@ -1,0 +1,72 @@
+﻿a.button-close-page {
+    width: 65px;
+    height: 65px;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.change-price-num {
+    margin-right: 10px;
+}
+
+.section {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.btn-instrument {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.statistics-today-details {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.logo-name-main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 48%;
+}
+
+.btn-date-diagram {
+    width: 20px;
+    height: 20px;
+}
+
+.left-statistics-today {
+    margin-right: 30px;
+}
+
+.btn-buy {
+    width: 100px;
+    height: 40px;
+    background: blue;
+    color: white;
+    border-radius: 15%;
+    margin: 20px;
+}
+
+.btn-sell {
+    width: 100px;
+    height: 40px;
+    background: black;
+    color: white;
+    border-radius: 15%;
+    margin: 20px;
+}
+
+.change-price-num-persent {
+    display: flex;
+}
