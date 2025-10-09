@@ -11,13 +11,13 @@ namespace Investing.Services
     {
         StockData stockData = new StockData();
         
-        async Task<T> IDetailInstrument<T>.DetailInstrument(string secId, FullModelInstrumentsMoex.TypeInstrument typeInstrument) // дальше буду собирать информациюю из методов связанных со стаканом и статистикой
+        async Task<T> IDetailInstrument<T>.DetailInstrument(string secId, FullModelInstrumentsMoex.TypeInstrument typeInstrument)
         {
+            //CandlesHistory свечи получать за счет делегата
             object a = "";
             switch (typeInstrument)
             {
                 case FullModelInstrumentsMoex.TypeInstrument.Stock:
-
                 var stocks = await GetDataModelInstrument(secId);
                    return (T)(object)stocks;
                 case FullModelInstrumentsMoex.TypeInstrument.Currency:

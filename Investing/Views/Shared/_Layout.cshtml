@@ -16,24 +16,23 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-           
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" alt="Профиль" class="logo-btn"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
-                        </li>
-                    </ul>
+                <div class="section-main-window">
+                    <div class="logo-proaile">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" alt="Профиль" class="logo-btn"></a>
+                      </div>
+                    <div class="section-account navbar-collapse collapse d-sm-inline-flex">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
+                            </li>
+                            </ul>
+                        </div>
                 </div>
-                </div>
+               </div> 
         </nav> 
         <div class="container">
         <nav class="top-menu">

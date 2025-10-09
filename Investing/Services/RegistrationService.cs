@@ -1,4 +1,5 @@
-﻿using Investing.Models;
+﻿using Investing.Controllers;
+using Investing.Models;
 using Investing.Redis;
 using Investing.Services.Interfaces;
 using Investing.Services.MoexData;
@@ -15,6 +16,7 @@ namespace Investing.Services
             services.AddScoped<IFullModelInstrumentsMoex, FullModelInstrumentsMoex>();
             services.AddScoped<IIconCompany, IconCompany>();
             services.AddScoped<IDetailInstrument<Stocks>, DetailInstrument<Stocks>>();
+            services.AddScoped<ICandlesHistory<Stocks>, CandlesHistory<Stocks>>();
             services.AddScoped<IMainOperationRedis, MainOperationRedis>();
             return services;
         }

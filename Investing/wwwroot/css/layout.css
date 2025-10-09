@@ -140,3 +140,8 @@
     .dropdown-results.active {
         display: block;
     }
+
+.section-main-window {
+    display: flex;
+    justify-content: space-between;
+}

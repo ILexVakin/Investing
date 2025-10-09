@@ -1,6 +1,7 @@
 ﻿@model Investing.Models.Stocks
 <link rel="stylesheet" href="~/css/detail_stock.css" />
 <script src="~/js/detail_stock.js"></script>
+<script src="~/js/candles_history.js"></script>
 <div class="main_board">
     <div class="main-section">
         <div class="section">
@@ -51,19 +52,34 @@
             </div>
                 <div class="date-diagram">
                 @* Здесь будет размещение дат отображение (сортировка) по 1д, 1н, 1м и тд *@
+                @* Думаю запрос к апи будет из js *@
                 <div class="section-btn-date-diagram">
-                    <a class="btn-date-diagram" href="#">1 д</a>
-                    <a class="btn-date-diagram" href="#">1 н</a>
-                    <a class="btn-date-diagram" href="#">1 м</a>
-                    <a class="btn-date-diagram" href="#">3 м</a>
-                    <a class="btn-date-diagram" href="#">6 м</a>
-                    <a class="btn-date-diagram" href="#">1 г</a>
+                    <button id="btn_diagram_1d" class="btn-date-diagram" href="#">1 д</button>
+                    <button id="btn_diagram_1w" class="btn-date-diagram" href="#">1 н</button>
+                    <button id="btn_diagram_1m" class="btn-date-diagram" href="#">1 м</button>
+                    <button id="btn_diagram_3m" class="btn-date-diagram" href="#">3 м</button>
+                    <button id="btn_diagram_6m" class="btn-date-diagram" href="#">6 м</button>
+                    <button id="btn_diagram_1y" class="btn-date-diagram" href="#">1 г</button>
                    </div> 
                 </div>
             </div>
             </div>
             <div class="section">
                 <div class="glass-trading">
+                    <div class="up-section-glass-trading">
+                        <h5>Стакан</h5>
+                         <button class="btn-detail-glass">Показать подробно</button>
+                    </div>
+                    <div class="down-section-glass-trading">
+                             <div class="demand-section">
+                                  Спрос, Р
+                                 <progress class="progress-demand" id="progress-demand" max="100" value="70">70%</progress>
+                              </div>
+                                   <div class="offer-section">
+                                    Предлжение, Р
+                            <progress class="progress-offer" id="progress-offer" max="100" value="70">70%</progress>
+                                </div>
+                    </div>
                     @* стакан со спросом и предложением *@
                 </div>
                 <div class="btn-instrument">
