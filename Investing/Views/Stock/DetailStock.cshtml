@@ -24,6 +24,15 @@
                 <h4> @Model.Marketdata.OFFER</h4>
             </div>
          </div>
+            <div class="change-price">
+                <div class="select-price">
+                    <p>Изменение за день</p>
+                    <div class="change-price-num-persent">
+                        <h6 class="change-price-num" id="change-price-num"></h6>
+                        <h6 id="change-price-persent"></h6>
+                    </div>
+                </div>
+            </div>
          <div class="type-instrument">
                 <p>Акция</p>
          </div>
@@ -33,36 +42,29 @@
          <div class="sec-id-company">
                 <p>@Model.Security.SECID</p>
          </div>
-         <div class="change-price">
-             <div class="select-price">
-                 <p>Изменение за день</p>
-                    <div class="change-price-num-persent">
-                        <h6 class="change-price-num" id="change-price-num"></h6>
-                        <h6 id="change-price-persent"></h6>
-                    </div>
-             </div>
-             @* Здесь должна будет размещаться разница стоимости закрытия и текущая*@
-         </div>
     </div>
             <div class="section">
-            <div class ="diagram-instruments">
-            <div class="diagram-chart-section">
-                <canvas id="chart-instruments" width="800" height="300"></canvas>
-                @* Здесь нужно будет разместить диаграмму Chart.js со свечами роста-падения *@
-            </div>
-                <div class="date-diagram">
-                @* Здесь будет размещение дат отображение (сортировка) по 1д, 1н, 1м и тд *@
-                @* Думаю запрос к апи будет из js *@
-                <div class="section-btn-date-diagram">
-                    <button id="btn_diagram_1d" class="btn-date-diagram" href="#">1 д</button>
-                    <button id="btn_diagram_1w" class="btn-date-diagram" href="#">1 н</button>
-                    <button id="btn_diagram_1m" class="btn-date-diagram" href="#">1 м</button>
-                    <button id="btn_diagram_3m" class="btn-date-diagram" href="#">3 м</button>
-                    <button id="btn_diagram_6m" class="btn-date-diagram" href="#">6 м</button>
-                    <button id="btn_diagram_1y" class="btn-date-diagram" href="#">1 г</button>
-                   </div> 
+            <div class="diagram-instruments">
+                <div class="diagram-chart-section" >
+                            <div class="preloader" id="chart-preloader">
+                                <div class="spinner">
+                                    <i class="fa-solid fa-spinner"></i>
+                                </div>
+                                <p>Загрузка данных...</p>
+                            </div>
+                        <canvas id="chart-instruments"></canvas>
+                    </div>
+                        <div class="date-diagram">
+                        <div class="section-btn-date-diagram">
+                                <button onclick="getGlassOrdersToday()" id="btn_diagram_1d" class="btn-date-diagram" href="#">1 д</button>
+                                <button onclick="getGlassOrders(event)" id="btn_diagram_1w" class="btn-date-diagram" href="#">1 н</button>
+                                <button onclick="getGlassOrders(event)" id="btn_diagram_1m" class="btn-date-diagram" href="#">1 м</button>
+                                <button onclick="getGlassOrders(event)" id="btn_diagram_3m" class="btn-date-diagram" href="#">3 м</button>
+                                <button onclick="getGlassOrders(event)" id="btn_diagram_6m" class="btn-date-diagram" href="#">6 м</button>
+                                <button onclick="getGlassOrders(event)" id="btn_diagram_1y" class="btn-date-diagram" href="#">1 г</button>
+                           </div> 
+                        </div>
                 </div>
-            </div>
             </div>
             <div class="section">
                 <div class="glass-trading">
@@ -115,4 +117,6 @@
 </div>
 <script>
     var allInstruments = @Html.Raw(Json.Serialize(Model));
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

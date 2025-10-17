@@ -1,10 +1,13 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using Investing.Models;
 
 namespace Investing.Services.Interfaces
 {
     public interface ICandlesHistory<T>
     {
-        Task<T> GetHistoryInstrumentAsync(string secId, DateTime start, DateTime over);
+        Task<List<T>> GetHistoryInstrumentMoreDaysAsync(CandlesRequest model);
+        Task<List<CandlesByDayResponse>> GetHistoryInstrumentOneDayAsync(CandlesRequest model);
     }
 }

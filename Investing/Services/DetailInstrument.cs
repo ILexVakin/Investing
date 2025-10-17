@@ -13,7 +13,6 @@ namespace Investing.Services
         
         async Task<T> IDetailInstrument<T>.DetailInstrument(string secId, FullModelInstrumentsMoex.TypeInstrument typeInstrument)
         {
-            //CandlesHistory свечи получать за счет делегата
             object a = "";
             switch (typeInstrument)
             {
@@ -36,8 +35,13 @@ namespace Investing.Services
     }
     public static class EndPointsMoex
     {
+        //endpoint с полным описанием по инструменту
         public static string StockInfo = @"https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/SBER.json?iss.meta=off&iss.json=extended&securities=&marketdata=&trades=&orderbook=";
-        public static string StockСandlesInfo = @"https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SBER.json?iss.meta=off&from=2024-01-01&till=2024-12-01&limit=100";
+
+
+
+        //endpoint по свече - за несколько дней
+        public static string StockСandlesInfo =    @"https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SBER.json?iss.meta=off&from=2024-01-01&till=2024-12-01&limit=100";
     }
 }
 

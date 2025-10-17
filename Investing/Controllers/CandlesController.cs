@@ -10,14 +10,23 @@ namespace Investing.Controllers
 {
     public class CandlesController : Controller
     {
-        ICandlesHistory<Stocks> _candlesHistory;
-        public CandlesController(ICandlesHistory<Stocks> candlesHistory)
+        ICandlesHistory<CandlesByDayResponse> _candlesHistory;
+        public CandlesController(ICandlesHistory<CandlesByDayResponse> candlesHistory)
         {
             _candlesHistory = candlesHistory;
         }
-        public async Task<IActionResult> GetHistory(Stocks model, DateTime start, DateTime over)
+
+        //возврат данных для разных по количеству дней
+        public async Task<IActionResult> GetHistoryCandlesMoreDays([FromBody] CandlesRequest model)
         {
-            var response = await _candlesHistory.GetHistoryInstrumentAsync(model.Security.SECID, start, over);
+            var response = await _candlesHistory.GetHistoryInstrumentMoreDaysAsync(model);
+            return Ok(response);
+        }
+
+        //возврат данных для одного дня
+        public async Task<IActionResult> GetHistoryCandlesByDay([FromBody] CandlesRequest model)
+        {
+            var response = await _candlesHistory.GetHistoryInstrumentOneDayAsync(model);
             return Ok(response);
         }
     }

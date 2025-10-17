@@ -40,9 +40,10 @@
     width: 48%;
 }
 
-.btn-date-diagram {
-    width: 20px;
-    height: 20px;
+a.btn-date-diagram {
+    width: 35px;
+    height: 30px;
+    font-size:10px;
 }
 
 .left-statistics-today {
@@ -103,4 +104,40 @@
 }
 .progress-offer {
     background-color: mediumseagreen;
+}
+.chart-instruments {
+    display: none;
+}
+.hidden {
+    display: none !important;
+}
+.diagram-chart-section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+#chart-instruments {
+    width: 100% !important;
+    height: 100% !important;
+}
+#chart-preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    z-index: 10;
+}
+
+.preloader.hidden {
+    display: none !important;
+}
+
+.chart-instruments {
+    display: block;
 }
