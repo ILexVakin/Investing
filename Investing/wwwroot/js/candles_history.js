@@ -134,7 +134,7 @@ async function getGlassOrdersToday() {
 async function createGraphicksCandles(dataCandles) {
 
     var elementCanvas = document.getElementById("chart-instruments");
-
+    var secId = document.getElementById("secid-name-p");
     if (elementCanvas.chart) {
         elementCanvas.chart.destroy();
     }
@@ -149,6 +149,7 @@ async function createGraphicksCandles(dataCandles) {
     var instrumentData = {
         labels: timeElement,
         datasets: [{
+            label: secId.innerText,
             data: priceElement,
             lineTension: 0,
             fill: false,

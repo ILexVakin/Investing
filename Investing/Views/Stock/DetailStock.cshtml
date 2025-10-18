@@ -5,17 +5,19 @@
 <div class="main_board">
     <div class="main-section">
         <div class="section">
-            <div class="logo-name-main">
-        <div class="section-close-page">
-            <a class="button-close-page"></a>
-        </div>
-        <div class="logo-company">
-            <img />
-        </div>
-        <div class="name-company">
-            <h2>@Model.Security.SHORTNAME</h2>
+         <div class="logo-name-main">
+                    @if (!(Model.Security.IconCompany is null))
+                    {
+                        <img src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.Security.IconCompany))" class="company-logo">
+                    }
+                    else
+                    {
+                        <img src="~/images/logo.jpg" class="company-logo" />
+                    }
+                <div class="name-company">
+                    <h2>@Model.Security.SHORTNAME</h2>
                 </div>
-            </div>
+      </div>
      </div>
     <div class="section">
         <div class="price-now">
@@ -40,7 +42,7 @@
                 <p>Лот = @Model.Security.LOTSIZE шт.</p>
             </div>
          <div class="sec-id-company">
-                <p>@Model.Security.SECID</p>
+                <p id="secid-name-p">@Model.Security.SECID</p>
          </div>
     </div>
             <div class="section">
@@ -66,7 +68,7 @@
                         </div>
                 </div>
             </div>
-            <div class="section">
+            <div class="section not-space">
                 <div class="glass-trading">
                     <div class="up-section-glass-trading">
                         <h5>Стакан</h5>

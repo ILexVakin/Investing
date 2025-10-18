@@ -10,7 +10,7 @@ namespace Investing.Image
         {
             var listIconsComany = await ReadImageFromFileArray();
             var redisIcons = await FindUniqueIcons(listIconsComany);
-            var postgreIcons =  await GetIconsToRedis(listIconsComany, redisIcons);
+            await GetIconsToRedis(listIconsComany, redisIcons);
             return listIconsComany;
         }
 
@@ -30,11 +30,13 @@ namespace Investing.Image
 
         }
 
-        public async Task<Dictionary<string, byte[]>> GetIconsToRedis(Dictionary<string, byte[]> dictionaryAllIcons, Dictionary<string, byte[]> redisIcons)
+        public async Task GetIconsToRedis(Dictionary<string, byte[]> dictionaryAllIcons, Dictionary<string, byte[]> redisIcons)
         {
             Dictionary<string, byte[]> listUniqueIcons = new Dictionary<string, byte[]>();
             try
             {
+
+                #region Redis
                 //данные, которые есть в редис нам сейчас не нужны
                 var dictionaryWithoutRedis = dictionaryAllIcons.Except(redisIcons).ToArray();
 
@@ -50,19 +52,25 @@ namespace Investing.Image
                 var unionRedisDictionary = redisIcons.Union(duplicateRedisIsin).ToDictionary(c => c.Key, c=> c.Value);
 
                 await redis.InsertIconsInRedis(unionRedisDictionary);
+                #endregion
+
+
+                #region Postgres
+
+
                 //коллекция, которая пойдет в 2 модели постгреса (Оригинал и дубликат)
 
-                //var rt = dublicateRedisIsin.GroupBy(arr => Convert.ToBase64String(arr))
-                //                            .Where(c => c.Count() > 1)
-                //                            .SelectMany(c => c)
-                //                            .ToDictionary(c => c.k);
+                //Нужно добавить в оригинал все значения duplicateRedisIsin и найти по Convert.ToBase64String(x.Value) такие же сущности в dictionaryAllIcons
+                //из dictionaryAllIcons
+
+
+                //dictionaryWithoutRedis - все иконки, которые имеют еще дубликаты
+                #endregion
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
-
-            return listUniqueIcons;
         }
 
         public async Task<Dictionary<string, byte[]>> FindUniqueIcons(Dictionary<string, byte[]> dictionaryAllIcons)

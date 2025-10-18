@@ -37,7 +37,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 48%;
+    width: 35%;
 }
 
 a.btn-date-diagram {
@@ -140,4 +140,14 @@ a.btn-date-diagram {
 
 .chart-instruments {
     display: block;
+}
+.section.not-space {
+    justify-content: flex-start; /* или другое значение вместо space-between */
+}
+.logo-name-main {
+    display: flex;
+    justify-content: space-between;
+}
+.name-company {
+    margin: 20px;
 }

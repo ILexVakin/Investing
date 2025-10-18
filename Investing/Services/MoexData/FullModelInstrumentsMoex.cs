@@ -33,7 +33,7 @@ namespace Investing.Services.MoexData
                     Isin = foundStock.Security.ISIN,
                     PriceChange = foundStock.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Stock,
-                    //ImageIcon = await iconCompany.GetIconCompany(foundStock.Security.ISIN) реализовать таким образом, чтоб данные шли из lazy
+                    ImageIcon = await iconCompany.GetIconCompany(foundStock.Security.ISIN)
                 };
                 listInstruments.Add(stock);
             }

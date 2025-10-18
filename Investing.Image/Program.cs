@@ -7,6 +7,6 @@ public class Program
         //IconInstruments iconInstruments = new IconInstruments();
         //await iconInstruments.GetIsinInstruments();
         ReadingIcon readingIcon = new ReadingIcon();
-        var t = readingIcon.GetAllIconsCampany();
+       await readingIcon.GetAllIconsCampany();
     }
 }

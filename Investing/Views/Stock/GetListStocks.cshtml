@@ -61,7 +61,14 @@
             <tr style="@(stock.Marketdata?.TRADINGSTATUS == "N" ? "background-color: grey" : "background-color: white;")" onclick="window.location.href='@Url.Action("DetailStock", "Stock", new { secId = stock.Security.SECID })'; return false">
                 <td>
                     <div class="company-info">
-                        <img src="https://img.logo.dev/sberbank.ru" alt="T-Технологии" class="company-logo">
+                        @if (!(stock.Security.IconCompany is null))
+                        {
+                            <img src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(@stock.Security.IconCompany))" class="company-logo">
+                        }
+                        else
+                        {
+                            <img src="~/images/logo.jpg" class="company-logo"/>
+                        }
                         <div>
                             <div class="company-name">@stock.Security.SHORTNAME</div>
                             <p class="company-description">@stock.Security.SECID</p>

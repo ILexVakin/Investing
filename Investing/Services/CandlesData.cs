@@ -16,7 +16,7 @@ namespace Investing.Services
         async Task<List<CandlesByDayResponse>> ICandlesData<T>.GetCandlesByDayAsync(string endpoint)
         {
             var modelInstruments = await readingMoex.GetAllRowsByExchange(endpoint);
-            return await FillingCandlesData(modelInstruments);
+            return await FillingCandlesModelByDay(modelInstruments);
         }
 
         async Task<T> ICandlesData<T>.GetCandlesByManyDaysAsync(string endpoint)
@@ -24,7 +24,7 @@ namespace Investing.Services
             var modelInstruments = await readingMoex.GetAllRowsByExchange(endpoint);
             throw new System.NotImplementedException();
         }
-        async Task<List<CandlesByDayResponse>> FillingCandlesData(JsonElement elementInstrument)
+        async Task<List<CandlesByDayResponse>> FillingCandlesModelByDay(JsonElement elementInstrument)
         {
             List<CandlesByDayResponse> listCandles = new List<CandlesByDayResponse>();
 

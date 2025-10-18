@@ -16,7 +16,7 @@ async function loadAllInstruments() {
 async function funcBrowseSort(searchTerm) {
     try {
         const results = allInstruments.filter(instrument => {
-            return instrument.shortName.toLowerCase().includes(searchTerm.toLowerCase());
+            return instrument.secName.toLowerCase().includes(searchTerm.toLowerCase());
         }).slice(0, 10);
 
         displayResults(results, searchTerm);
@@ -37,6 +37,7 @@ async function searchOnServer() {
         console.log('Поиск на сервере:', searchTerm);
 
         // Отправляем запрос на сервер
+        //дальше здесь сделаем замену на открытие непосредственно тех сущностей которые тыкнули, то есть открытие инструмента у которого id == id
         const response = await fetch(`/Instrument/GetListInstruments?substring=${encodeURIComponent(searchTerm)}`);
 
         if (response.ok) {
@@ -81,7 +82,7 @@ function displayResults(results, searchTerm) {
 
             // Клик по элементу
             listItem.onclick = function () {
-                document.getElementById('searchInput').value = item.shortName;
+                document.getElementById('searchInput').value = item.secName;
                 hideDropdown();
                 // Автоматически отправляем форму при выборе
                 document.getElementById('text-srch').submit();
@@ -104,7 +105,7 @@ function hideDropdown() {
 function highlightMatch(text, searchTerm) {
     if (!searchTerm || !text) return text;
     const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
-    return text.shortName.replace(regex, '<strong>$1</strong>');
+    return text.secName.replace(regex, '<strong>$1</strong>');
 }
 
 // Экранирование для RegExp

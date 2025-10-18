@@ -29,6 +29,7 @@ namespace Investing.Models
         public string? LATNAME { get; set; }
         public float? PREVPRICE { get; set; }
         public string? SECID { get; set;}
+        public byte[]? IconCompany { get; set; }
     }
     public class UnionModelInstrumentMarketdata : IExpressionNumberMoex
     {
