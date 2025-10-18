@@ -25,10 +25,11 @@ namespace Investing.Services.MoexData
                     SHORTNAME = securities[i].GetProperty("SHORTNAME").GetString(),
                     PREVPRICE = securities[i].TryGetProperty("PREVPRICE", out var prevPrice)
                     && prevPrice.ValueKind != JsonValueKind.Null
-                                    ? prevPrice.GetDecimal()
-                                    : (decimal?)null,
+                                    ? prevPrice.GetSingle()
+                                    : null,
                     LOTSIZE = securities[i].GetProperty("LOTSIZE").GetInt32(),
                     SECNAME = securities[i].GetProperty("SECNAME").GetString(),
+                    FACEUNIT = securities[i].GetProperty("FACEUNIT").GetString()
                 });
             }
             return listSecurities;
@@ -48,15 +49,19 @@ namespace Investing.Services.MoexData
                                     : (decimal?)null,
                     OPEN = marketdata[i].TryGetProperty("OPEN", out var open)
                     && open.ValueKind != JsonValueKind.Null
-                                    ? open.GetDecimal()
-                                    : (decimal?)null
+                                    ? open.GetSingle()
+                                    : null,
+                    LASTTOPREVPRICE = marketdata[i].TryGetProperty("LASTTOPREVPRICE", out var lastPrice)
+                    && lastPrice.ValueKind != JsonValueKind.Null
+                                    ? lastPrice.GetDecimal()
+                                    : null
                 });
             }
 
             return listMarketdata;
         }
 
-        public async Task<List<CombinedCurrencyVM>> CombinedCurrencyDataAsync()
+        public async Task<List<Currency>> CombinedCurrencyDataAsync()
         {
             var listCurrency = await moexData.GetAllRowsByExchange("https://iss.moex.com/iss/engines/currency/markets/selt/boards/CETS/securities.json?iss.meta=off&iss.json=extended&limit=100");
             Task getCurrencyData = new Task(() =>
@@ -69,7 +74,7 @@ namespace Investing.Services.MoexData
             var combinedData = listSecurities.GroupJoin(listMarketdata,
              sec => sec.SECID,
              mar => mar.SECID,
-             (sec, mar) => new CombinedCurrencyVM
+             (sec, mar) => new Currency
              {
                  Security = sec,
                  Marketdata = mar.FirstOrDefault()

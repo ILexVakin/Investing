@@ -51,6 +51,7 @@ namespace Investing.Services.MoexData
                     SecName = foundCurrency.Security.SECNAME,
                     SecId = foundCurrency.Security.SECID,
                     PriceChange = foundCurrency.Marketdata.MARKETPRICE,
+                    //ImageIcon = await iconCompany.GetIconCompany(foundCurrency.Security.ISIN)
                     TypeInstrument = TypeInstrument.Currency
                 };
                 listInstruments.Add(currency);
