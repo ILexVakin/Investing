@@ -1,14 +1,19 @@
 ﻿@using Newtonsoft.Json;
 @model List<Investing.Models.SingleModelExchangeInstruments>
+<link rel="stylesheet" href="~/css/instrument.css" />
 <body>
     <div id="app">
+        <div>
         <div class="section-btn-instruments">
-            <div class="btn-instrument">
-                <button class="btn-instrument">Акции</button>
-                <button class="btn-instrument">Валюта</button>
-                <button class="btn-instrument">Облигации</button>
-                <button class="btn-instrument">Фонды</button>
-                <button class="btn-instrument">Фьючерсы</button>
+            <button onclick="clearFilter()" class="btn-instrument" id="btnFilterStock">Все</button>
+            <button onclick="filterByStock()" class="btn-instrument" id="btnFilterStock">Акции</button>
+            <button onclick="filterByCurrency()" class="btn-instrument" id="btnFilterCurrency">Валюта</button>
+            <button onclick="filterByBond()" class="btn-instrument" id="btnFilterBond">Облигации</button>
+            <button onclick="filterByFunds()" class="btn-instrument" id="btnFilterFunds">Фонды</button>
+            <button onclick="filterByFutures()" class="btn-instrument" id="btnFilterFutures">Фьючерсы</button>
+        </div>
+        <div class="section-name-filter">
+                <h4 id="visible-insrument-filter"></h4>
             </div>
         </div>
         <div>

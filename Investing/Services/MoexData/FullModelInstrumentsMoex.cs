@@ -114,7 +114,8 @@ namespace Investing.Services.MoexData
                     //PriceChange = fundBond.Marketdata.MARKETPRICE,
                     SecName = fundBond.Securities.SECNAME,
                     SecId = fundBond.Securities.SECID,
-                    TypeInstrument = TypeInstrument.Futures
+                    TypeInstrument = TypeInstrument.Futures,
+                      TypeInstrumentRussian = TypeInstrument.Futures.DescriptionEnum()
                 };
                 listInstruments.Add(bond);
             }
