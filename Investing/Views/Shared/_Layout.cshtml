@@ -47,7 +47,7 @@
         </div>
         <div class="container">
             <div class="search-container">
-                <form asp-controller="Instrument" asp-action="GetListInstruments" id="text-srch" method="get">
+                <form asp-controller="Instrument" asp-action="GetListInstruments" id="text-srch" method="get"> 
                     <input name="substring" class="input-srch" id="searchInput" type="text"
                            placeholder="Поиск по названию, тикерy или ISIN-коду"
                            oninput="debouncedSearch()"

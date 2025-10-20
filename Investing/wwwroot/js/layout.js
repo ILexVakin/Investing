@@ -32,12 +32,7 @@ async function searchOnServer() {
         hideDropdown();
         return;
     }
-
     try {
-        console.log('Поиск на сервере:', searchTerm);
-
-        // Отправляем запрос на сервер
-        //дальше здесь сделаем замену на открытие непосредственно тех сущностей которые тыкнули, то есть открытие инструмента у которого id == id
         const response = await fetch(`/Instrument/GetListInstruments?substring=${encodeURIComponent(searchTerm)}`);
 
         if (response.ok) {
@@ -51,6 +46,18 @@ async function searchOnServer() {
         console.error('Ошибка при поиске:', error);
         hideDropdown();
     }
+}
+
+async function detectedController(searchTerm) {
+    const results = allInstruments.find(instrument => {
+        return instrument.secName.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    const response = await fetch(`/${results.typeInstrument}/Detail${results.typeInstrument}?substring=${encodeURIComponent(results.secId)}`);
+
+}
+
+async function translateInstrument() {
+
 }
 
 // Отображение результатов

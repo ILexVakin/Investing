@@ -1,11 +1,15 @@
 ﻿using Investing.Data;
 using Investing.Models;
 using Investing.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Investing.Services.MoexData
@@ -33,6 +37,7 @@ namespace Investing.Services.MoexData
                     Isin = foundStock.Security.ISIN,
                     PriceChange = foundStock.Marketdata.MARKETPRICE,
                     TypeInstrument = TypeInstrument.Stock,
+                    TypeInstrumentRussian = TypeInstrument.Stock.DescriptionEnum(),
                     ImageIcon = await iconCompany.GetIconCompany(foundStock.Security.ISIN)
                 };
                 listInstruments.Add(stock);
@@ -52,7 +57,8 @@ namespace Investing.Services.MoexData
                     SecId = foundCurrency.Security.SECID,
                     PriceChange = foundCurrency.Marketdata.MARKETPRICE,
                     //ImageIcon = await iconCompany.GetIconCompany(foundCurrency.Security.ISIN)
-                    TypeInstrument = TypeInstrument.Currency
+                    TypeInstrument = TypeInstrument.Currency,
+                     TypeInstrumentRussian = TypeInstrument.Currency.DescriptionEnum()
                 };
                 listInstruments.Add(currency);
             }
@@ -70,7 +76,8 @@ namespace Investing.Services.MoexData
                     SecId = foundBond.Security.SECID,
                     Isin = foundBond.Security.ISIN,
                     PriceChange = foundBond.Marketdata.MARKETPRICE,
-                    TypeInstrument = TypeInstrument.Bond
+                    TypeInstrument = TypeInstrument.Bond,
+                    TypeInstrumentRussian = TypeInstrument.Bond.DescriptionEnum()
                 };
                 listInstruments.Add(bond);
             }
@@ -88,7 +95,8 @@ namespace Investing.Services.MoexData
                     SecId = fondFund.Security.SECID,
                     Isin = fondFund.Security.ISIN,
                     PriceChange = fondFund.Marketdata.MARKETPRICE,
-                    TypeInstrument = TypeInstrument.Fund
+                    TypeInstrument = TypeInstrument.Fund,
+                    TypeInstrumentRussian = TypeInstrument.Fund.DescriptionEnum()
                 };
                 listInstruments.Add(bond);
             }
@@ -112,18 +120,26 @@ namespace Investing.Services.MoexData
             }
             return listInstruments;
         }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum TypeInstrument
         {
+            [EnumMember(Value = "None")]
             [Description("Неопределено")]
             None,
+            [EnumMember(Value = "Stock")]
             [Description("Акции")]
             Stock,
+            [EnumMember(Value = "Currency")]
             [Description("Валюта")]
             Currency,
+            [EnumMember(Value = "Bond")]
             [Description("Облигации")]
             Bond,
+            [EnumMember(Value = "Fund")]
             [Description("Фонды")]
             Fund,
+            [EnumMember(Value = "Futures")]
             [Description("Фьючерсы")]
             Futures
         }

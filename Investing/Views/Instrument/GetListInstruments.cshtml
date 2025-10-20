@@ -1,37 +1,37 @@
-﻿@model List<Investing.Models.SingleModelExchangeInstruments>
+﻿@using Newtonsoft.Json;
+@model List<Investing.Models.SingleModelExchangeInstruments>
 <body>
     <div id="app">
-        <table class="table" id="sortTable">
+        <div class="section-btn-instruments">
+            <div class="btn-instrument">
+                <button class="btn-instrument">Акции</button>
+                <button class="btn-instrument">Валюта</button>
+                <button class="btn-instrument">Облигации</button>
+                <button class="btn-instrument">Фонды</button>
+                <button class="btn-instrument">Фьючерсы</button>
+            </div>
+        </div>
+        <div>
+        <table class="table" id="allInstruments">
             <thead>
                 <tr>
                     <th>Название</th>
+                    <th>Тип инструмента</th>    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                        <tr data-id="@item.SecId" data-instrument='@JsonConvert.SerializeObject(item)'>
                         <td>@item.SecName</td>
+                        <td>@item.TypeInstrumentRussian</td>
                     </tr>
                 }
             </tbody>
         </table>
 
-        <!-- Форма добавления новой задачи -->
-        <div id="add-form">
-            <input type="text" id="newTodoInput" placeholder="Введите новую задачу..." style="padding: 8px; width: 300px;">
-            <button onclick="addTodo()">Добавить</button>
         </div>
-
-        <!-- Сообщение об ошибке -->
-        <div id="error-message" class="error" style="display: none;"></div>
-
-        <!-- Список задач -->
-        <ul id="todoList" class="todo-list"></ul>
-
-        <!-- Статистика -->
-        <div id="stats" style="margin-top: 20px; font-size: 14px; color: #666;"></div>
     </div>
-
     <script src="~/js/instrument.js"></script>
+   
 </body>

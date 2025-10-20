@@ -20,7 +20,7 @@ namespace Investing.Controllers
         {
             if (!string.IsNullOrEmpty(substring))
             {
-                return View/*Json*/(await _searchService.SearchAllExchangeInstrumentsBySubstringAsync(substring));
+                return View(await _searchService.SearchAllExchangeInstrumentsBySubstringAsync(substring));
             }
             else
                 return BadRequest(new List<SingleModelExchangeInstruments>());
