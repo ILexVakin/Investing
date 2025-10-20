@@ -7,4 +7,4 @@
         });
         window.location.href = `/${results.typeInstrument}/Detail${results.typeInstrument}?substring=${encodeURIComponent(results.secId)}`;
     }
-});
+}); 
