@@ -142,7 +142,7 @@ a.btn-date-diagram {
     display: block;
 }
 .section.not-space {
-    justify-content: flex-start; /* или другое значение вместо space-between */
+    justify-content: flex-start;
 }
 .logo-name-main {
     display: flex;
@@ -150,4 +150,44 @@ a.btn-date-diagram {
 }
 .name-company {
     margin: 20px;
+}
+.company-logo{
+    width:80px;
+    height:80px;
+}
+
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+    /* Стили для кнопок вкладок */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+        /* Изменение цвета кнопок при наведении */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Активная кнопка */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Стили для содержимого вкладок */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }

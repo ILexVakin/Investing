@@ -112,14 +112,12 @@
         border-bottom: 1px solid transparent;
         transition: .3s linear;
     }
-
-    .menu-main .current, .menu-main a:hover {
-        border-radius: 3px;
-        background: #f3ece1;
-        color: #313131;
-        text-shadow: 0 1px 0 #fff;
-        border-color: #c6c6c6;
-    }
+.instrument-btn {
+    border-radius: 30px;
+}
+.instrument-btn.active {
+    background-color: powderblue
+}
 
 /*Стиль выпадающего списка*/
 .dropdown-results {

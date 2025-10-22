@@ -24,4 +24,23 @@
     elementPersent.textContent = differenceTodayPersent.toFixed(2) + " %";
 
 }
+
+function openTab(evt, tabName) {
+    // Скрыть все вкладки
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Убрать активный класс у всех кнопок
+    var tablinks = document.getElementsByClassName("tablinks");
+    for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Показать текущую вкладку и добавить активный класс кнопке
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
 document.addEventListener('DOMContentLoaded', calculationDifference);

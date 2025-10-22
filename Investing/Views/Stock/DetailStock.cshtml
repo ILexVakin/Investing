@@ -4,7 +4,7 @@
 <script src="~/js/candles_history.js"></script>
 <div class="main_board">
     <div class="main-section">
-        <div class="section">
+        <div class="section not-space">
          <div class="logo-name-main">
                     @if (!(Model.Security.IconCompany is null))
                     {
@@ -18,6 +18,14 @@
                     <h2>@Model.Security.SHORTNAME</h2>
                 </div>
       </div>
+            <div class="btn-instrument">
+                <div class="btn-buy-instrument">
+                    <button class="btn-buy">Купить</button>
+                </div>
+                <div class="btn-sell-instrument">
+                    <button class="btn-sell">Продать</button>
+                </div>
+            </div>
      </div>
     <div class="section">
         <div class="price-now">
@@ -45,6 +53,11 @@
                 <p id="secid-name-p">@Model.Security.SECID</p>
          </div>
     </div>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Tab1')">Обзор</button>
+            <button class="tablinks" onclick="openTab(event, 'Tab2')">История</button>
+        </div>
+        <div id="Tab1" class="tabcontent">
             <div class="section">
             <div class="diagram-instruments">
                 <div class="diagram-chart-section" >
@@ -68,7 +81,7 @@
                         </div>
                 </div>
             </div>
-            <div class="section not-space">
+            <div class="section">
                 <div class="glass-trading">
                     <div class="up-section-glass-trading">
                         <h5>Стакан</h5>
@@ -85,14 +98,6 @@
                                 </div>
                     </div>
                     @* стакан со спросом и предложением *@
-                </div>
-                <div class="btn-instrument">
-                    <div class="btn-buy-instrument">
-                    <button class="btn-buy">Купить</button>
-                    </div>
-                    <div class="btn-sell-instrument">
-                    <button class="btn-sell">Продать</button>
-                    </div>
                 </div>
             </div>
             <div class="section">
@@ -114,11 +119,13 @@
                 </div>
                 </div>
             </div>
-    
+        </div>
+        <div id="Tab2" class="tabcontent">
+        </div>
     </div>
 </div>
 <script>
     var allInstruments = @Html.Raw(Json.Serialize(Model));
-
+    document.getElementsByClassName("tablinks")[0].click();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

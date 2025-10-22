@@ -140,3 +140,16 @@ document.addEventListener('click', function (event) {
         hideDropdown();
     }
 });
+
+//подсветка активной кнопки главного меню
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.instrument-btn');
+    const currentPath = window.location.pathname.toLowerCase();
+
+    buttons.forEach(button => {
+        const href = button.getAttribute('href') || button.pathname;
+        if (href && currentPath.includes(href.toLowerCase())) {
+            button.classList.add('active');
+        }
+    });
+});

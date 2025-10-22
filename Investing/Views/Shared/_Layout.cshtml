@@ -37,11 +37,11 @@
         <div class="container">
         <nav class="top-menu">
             <ul class="menu-main">
-                <li><a asp-controller="Stock" asp-action="GetListStocks" class="current">Акции</a></li>
-                <li><a asp-controller="Currency" asp-action="GetListCurrency">Валюта</a></li>
-                <li><a asp-controller="Bond" asp-action="GetListBonds">Облигации</a></li>
-                <li><a asp-controller="Fund" asp-action="GetListFunds">Фонды</a></li>
-                <li><a asp-controller="Futures" asp-action="GetListFutures">Фьючерсы</a></li>
+                    <li><a asp-controller="Stock" asp-action="GetListStocks" id="instrumentBtn()" class="instrument-btn">Акции</a></li>
+                    <li><a asp-controller="Currency" asp-action="GetListCurrency" id="instrumentBtn()" class="instrument-btn">Валюта</a></li>
+                    <li><a asp-controller="Bond" asp-action="GetListBonds" id="instrumentBtn()" class="instrument-btn">Облигации</a></li>
+                    <li><a asp-controller="Fund" asp-action="GetListFunds" id="instrumentBtn()" class="instrument-btn">Фонды</a></li>
+                    <li><a asp-controller="Futures" asp-action="GetListFutures" id="instrumentBtn()" class="instrument-btn">Фьючерсы</a></li>
             </ul>
         </nav>
         </div>
