@@ -21,13 +21,20 @@ namespace Investing.Models
         [DisplayName("Имя")]
         public string Name { get; set; }
 
+        [Column("role_id")]
+        public int Role_id { get; set; }
+
         [Required]
         [Column("age")]
         [DisplayName("Возраст")]
         public int Age { get; set; }
-        public Credentials Credentials { get; set; }
 
-        //public ICollection<Credentials> Credentials { get; set; }
+        //[Required]
+        [Column("sex")]
+        [DisplayName("Пол")]
+        public string Sex { get; set; }
+        public virtual Credentials Credentials { get; set; }
+        public virtual UserRole UserRole { get; set; }
 
     }
 }

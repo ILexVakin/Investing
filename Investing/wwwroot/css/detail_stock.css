@@ -191,3 +191,12 @@ a.btn-date-diagram {
     border: 1px solid #ccc;
     border-top: none;
 }
+.combobox-histories-trading {
+    height: 45px;
+    width: 160px;
+    background: #ccc;
+    border-radius: 40%;
+}
+.asdf{
+    margin: 30px;
+}

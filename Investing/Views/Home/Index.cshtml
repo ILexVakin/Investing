@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Investing.Extensions;
+@{
     ViewData["Title"] = "Home Page";
 }
 <head>
@@ -7,9 +8,12 @@
 
 <div>
     <div class="recomenation-instruments">
-        <h2>Рекомендации</h2>
-        <div class="button-container">
-            <div class="button-group">
+        @if (Context.Session.IsAuthenticated())
+        {
+            //сюда будут помещаться данные по статистике похожих людей
+            <h2>Рекомендации</h2>
+            <div class="button-container">
+                <div class="button-group">
             <button class="round-button">
                 <img src="https://via.placeholder.com/50" alt="Изображение">
             </button>
@@ -19,25 +23,26 @@
             </div>
             </div>
 
-        <div class="button-group">
-            <button class="round-button">
-                <img src="https://via.placeholder.com/50" alt="Изображение">
-            </button>
+            <div class="button-group">
+                <button class="round-button">
+                    <img src="https://via.placeholder.com/50" alt="Изображение">
+                </button>
 
-            <div class="label">
-                Надпись под кнопкой
+                <div class="label">
+                    Надпись под кнопкой
+                </div>
             </div>
-        </div>
-        <div class="button-group">
-            <button class="round-button">
-                <img src="https://via.placeholder.com/50" alt="Изображение">
-            </button>
+            <div class="button-group">
+                <button class="round-button">
+                    <img src="https://via.placeholder.com/50" alt="Изображение">
+                </button>
 
-            <div class="label">
-                Надпись под кнопкой
+                <div class="label">
+                    Надпись под кнопкой
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
+        }
      </div>
  
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

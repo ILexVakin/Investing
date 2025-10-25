@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Investing.Data;
+using Investing.Extensions;
 using Investing.Models;
 using Investing.Models.DTO;
 using Investing.Models.ViewModels;
@@ -48,10 +49,6 @@ namespace Investing.Controllers
                 };
                 return View(user);
             }
-            //else //новый аккаунт или просто не ставили галочку о сохранении пароля и логина
-            //{
-
-            //}
             return View();
         }
 
@@ -61,7 +58,10 @@ namespace Investing.Controllers
         {
             if (ModelState.IsValid)
             {
-                var foundUser = _mainContext.Credentials.FirstOrDefault(c => c.Login == user.Login && c.Password == user.Password);
+                var foundUser = _mainContext.User.Include(c => c.Credentials)
+                                                .Include(c => c.UserRole)
+                                                .FirstOrDefault(c => c.Credentials.Login == user.Login &&
+                                                c.Credentials.Password == user.Password);
                 if (foundUser != null)
                 {
                     if (user.IsRememberMe)
@@ -80,8 +80,9 @@ namespace Investing.Controllers
                         // Удаляем куки, если "Запомнить меня" не выбрано
                         Response.Cookies.Delete(RememberMeCookieName);
                     }
-                    //страница личного кабинета
-                    Debug.WriteLine(foundUser.UserId);
+                    
+                    HttpContext.Session.SetUser(user);
+
                     _logger.LogInformation($"Пользователь {user.UserId} вошел в личный кабинет");
                     return RedirectToAction("PersonalAccount", new { userId = foundUser.UserId });
                 }
@@ -104,13 +105,11 @@ namespace Investing.Controllers
             return View(userCredentialsDTO);
         }
 
-        // Удаляем куки при выходе
-        [HttpPost]
         public IActionResult Logout()
         {
-            
             Response.Cookies.Delete(RememberMeCookieName);
-            return RedirectToAction("Login");
+            HttpContext.Session.Logout();
+            return RedirectToAction("LoginAccount");
         }
 
         [HttpGet]

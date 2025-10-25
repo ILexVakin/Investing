@@ -5,26 +5,8 @@ using System;
 
 namespace Investing.Models
 {
-    public class RegisterModel
+    public class RegisterModel : User
     {
-
-        [Key]
-        [Column("user_id")]
-        public int UserId { get; set; }
-
-        [Column("first_name")]
-        [DisplayName("Фамилия")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Column("name")]
-        [DisplayName("Имя")]
-        public string Name { get; set; }
-
-        [Required]
-        [Column("age")]
-        [DisplayName("Возраст")]
-        public int Age { get; set; }
 
         [Key]
         [Column("credential_id")]

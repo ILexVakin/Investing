@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Investing.Extensions;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,12 +24,22 @@
                       </div>
                     <div class="section-account navbar-collapse collapse d-sm-inline-flex">
                         <ul class="navbar-nav flex-grow-1">
+                            @if (!Context.Session.IsAuthenticated())
+                            {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="LoginAccount"><i class="fa-solid fa-door-open"></i>Войти</a>
                             </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="OpenInvestingAccount"><i class="fa-solid fa-star"></i>Открыть счет</a>
-                            </li>
+                                </li>
+                            }
+                            else
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-door-open"></i>Выйти</a>
+                                </li>
+                            }
                             </ul>
                         </div>
                 </div>

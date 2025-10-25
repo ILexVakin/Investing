@@ -34,7 +34,5 @@ namespace Investing.Models
         [Column("created_ats")]
         [DisplayName("Время создания")]
         public DateTime? CreatedAt { get; set; }
-
-        public User? User { get; set; }  
     }
 }
